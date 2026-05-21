@@ -40,8 +40,8 @@ function HomePage() {
         </motion.h1>
 
         {/* Bilingual Poetic Statement */}
-        <div className="mb-40 flex flex-col items-center space-y-12"
-          <motion.div
+        <div className="mb-40 flex flex-col items-center space-y-12">
+  <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 2, delay: 1.5 }}
