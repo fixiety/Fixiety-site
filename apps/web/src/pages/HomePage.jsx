@@ -18,13 +18,13 @@ function HomePage() {
       </Helmet>
 
       {/* Background Image with Cinematic Treatment */}
-      <div className="absolute inset-0 z-0"
-        <img
-          src="https://images.unsplash.com/photo-1551887293-297ce7d00177?q=80&w=2574&auto=format&fit=crop" 
-          alt="Urban night cycling" 
-          className="w-full h-full object-cover object-center opacity-100"
-        />
-      </div>
+      <div className="absolute inset-0 z-0 overflow-hidden">
+  <img
+    src="https://images.unsplash.com/photo-1551887293-297ce7d00177?q=80&w=2574&auto=format&fit=crop"
+    alt="Urban night cycling"
+    className="w-full h-full object-cover object-center opacity-100"
+  />
+</div>
 
       {/* Content Container */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl mx-auto">
