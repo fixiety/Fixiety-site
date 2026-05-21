@@ -1,8 +1,8 @@
 import React from 'react';
 
 /**
- * Site-wide fixed overlay stack: grain, vignette, and atmospheric light leaks.
- * Sits above page content, below chrome (header z-50).
+ * Site-wide atmosphere behind .app-content (z-index 0).
+ * Transparent layers only — no mix-blend-mode (avoids white wash in production).
  */
 function CinematicAtmosphere() {
   return (

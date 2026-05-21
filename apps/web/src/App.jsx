@@ -31,10 +31,14 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
-      <CinematicAtmosphere />
-      <ScrollToTop />
-      <Header />
-      <AnimatedRoutes />
+      <div className="app-shell">
+        <CinematicAtmosphere />
+        <div className="app-content">
+          <ScrollToTop />
+          <Header />
+          <AnimatedRoutes />
+        </div>
+      </div>
     </Router>
   );
 }
