@@ -5,7 +5,7 @@
   "outputDirectory": "apps/web/dist",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!assets/|favicon|apple-touch-icon|site\\.webmanifest).*)",
       "destination": "/index.html"
     }
   ]
