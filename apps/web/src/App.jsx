@@ -31,12 +31,20 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
-      <div className="app-shell">
-        <CinematicAtmosphere />
-        <div className="app-content">
-          <ScrollToTop />
-          <Header />
-          <AnimatedRoutes />
+      <div className="min-h-dvh bg-black text-white">
+        <p
+          className="fixed top-3 left-3 z-[9999] m-0 rounded bg-black px-3 py-1.5 text-xs font-bold tracking-[0.2em] text-white ring-1 ring-white/30"
+          aria-hidden="true"
+        >
+          FIXIETY LOADED
+        </p>
+        <div className="app-shell">
+          <CinematicAtmosphere />
+          <div className="app-content">
+            <ScrollToTop />
+            <Header />
+            <AnimatedRoutes />
+          </div>
         </div>
       </div>
     </Router>

@@ -290,9 +290,8 @@ export default defineConfig({
 	},
 	customLogger: logger,
 	plugins: [
-		...(isDev ? [inlineEditPlugin(), editModeDevPlugin(), selectionModePlugin(), iframeRouteRestorationPlugin(), pocketbaseAuthPlugin()] : []),
+		...(isDev ? [inlineEditPlugin(), editModeDevPlugin(), selectionModePlugin(), iframeRouteRestorationPlugin(), pocketbaseAuthPlugin(), addTransformIndexHtml] : []),
 		react(),
-		addTransformIndexHtml
 	],
 	server: {
 		port: 3000,
@@ -318,7 +317,10 @@ export default defineConfig({
 			'@': path.resolve(__dirname, './src'),
 		},
 	},
+	base: '/',
 	build: {
+		outDir: 'dist',
+		emptyOutDir: true,
 		rollupOptions: {
 			external: [
 				'@babel/parser',
