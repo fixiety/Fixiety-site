@@ -16,5 +16,3 @@ root.render(
 		<App />
 	</React.StrictMode>
 );
-
-rootElement.dataset.mounted = 'true';
