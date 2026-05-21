@@ -10,7 +10,7 @@ function HomePage() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1.5 }}
-      className="relative min-h-dvh flex flex-col items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-[220vh] overflow-hidden bg-black"
     >
       <Helmet>
         <title>FIXIETY | Identidad</title>
@@ -18,29 +18,29 @@ function HomePage() {
       </Helmet>
 
       {/* Background Image with Cinematic Treatment */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="fixed inset-0 z-0 overflow-hidden">
   <img
     src="https://images.unsplash.com/photo-1551887293-297ce7d00177?q=80&w=2574&auto=format&fit=crop"
     alt="Urban night cycling"
-    className="w-full h-full object-cover object-center opacity-100"
+    className="w-full h-full object-contain md:object-cover object-center opacity-100"
   />
 </div>
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl mx-auto">
+      <div className="relative z-10 min-h-[220vh] flex flex-col items-center text-center px-6 max-w-4xl mx-auto">
         
         {/* Main Brand */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, delay: 0.5 }}
-          className="text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-16 md:mb-24"
+          className="mt-[100vh] text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-32"
         >
           FIXIETY
         </motion.h1>
 
         {/* Bilingual Poetic Statement */}
-        <div className="mb-24 md:mb-32 flex flex-col items-center space-y-12">
+        <div className="mb-40 flex flex-col items-center space-y-12"
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
