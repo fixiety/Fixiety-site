@@ -19,10 +19,7 @@ function HomePage() {
 
       {/* Background Image with Cinematic Treatment */}
       <div className="absolute inset-0 z-0"
-        <motion.img 
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 10, ease: "easeOut" }}
+        <img
           src="https://images.unsplash.com/photo-1551887293-297ce7d00177?q=80&w=2574&auto=format&fit=crop" 
           alt="Urban night cycling" 
           className="w-full h-full object-cover object-center opacity-100"
