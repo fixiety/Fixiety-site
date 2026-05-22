@@ -16,7 +16,7 @@ function HomePage() {
         <title>FIXIETY | Ciudad Fija</title>
         <meta
           name="description"
-          content="Archivo contemporáneo del piñón fijo. Contemporary fixed gear archive."
+          content="Contemporary fixed gear archive. Archivo contemporáneo del piñón fijo."
         />
       </Helmet>
 
@@ -33,7 +33,7 @@ function HomePage() {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 -mt-[100dvh] min-h-dvh flex flex-col items-center justify-end text-center px-6 pb-20 md:pb-28 max-w-4xl mx-auto">
+      <div className="relative z-10 -mt-[100dvh] min-h-dvh flex flex-col items-center justify-end text-center px-6 pb-32 md:pb-40 max-w-4xl mx-auto">
 
         {/* FIXIETY */}
         <motion.h1
@@ -41,7 +41,7 @@ function HomePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.9, delay: 0 }}
-          className="mt-[100vh] text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-20"
+          className="mt-[100vh] text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-12"
         >
           FIXIETY
         </motion.h1>
@@ -49,12 +49,25 @@ function HomePage() {
         {/* Main Statement */}
         <div className="mb-40 flex flex-col items-center space-y-5">
 
+          {/* English */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.9, delay: 0.15 }}
+            className="flex flex-col items-center"
+          >
+            <span className="text-base md:text-lg font-normal text-white/25 tracking-[0.18em] uppercase">
+              Contemporary fixed gear archive.
+            </span>
+          </motion.div>
+
           {/* Spanish */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.9, delay: 0.15 }}
+            transition={{ duration: 0.9, delay: 0.3 }}
             className="flex flex-col items-center"
           >
             <span className="text-2xl md:text-4xl font-medium text-white tracking-tight">
@@ -62,18 +75,6 @@ function HomePage() {
             </span>
           </motion.div>
 
-          {/* English */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.9, delay: 0.3 }}
-            className="flex flex-col items-center"
-          >
-            <span className="text-base md:text-lg font-normal text-white/45 tracking-wide">
-              Contemporary fixed gear archive.
-            </span>
-          </motion.div>
         </div>
 
         {/* Enter Button */}
@@ -91,7 +92,7 @@ function HomePage() {
               Entrar
             </span>
 
-            <span className="text-sm text-white/40 uppercase tracking-[0.2em] mt-3 group-hover:text-white/70 transition-colors duration-500">
+            <span className="text-sm text-white/30 uppercase tracking-[0.25em] mt-3 group-hover:text-white/70 transition-colors duration-500">
               Enter
             </span>
           </Link>
