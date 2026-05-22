@@ -41,39 +41,39 @@ function HomePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.9, delay: 0 }}
-          className="mt-[100vh] text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-12"
+          className="mt-[112vh] text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-20"
         >
           FIXIETY
         </motion.h1>
 
         {/* Main Statement */}
-        <div className="mb-40 flex flex-col items-center space-y-5">
+        <div className="mb-40 flex flex-col items-center space-y-4">
 
           {/* English */}
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0.6 }}
-  transition={{ duration: 0.9, delay: 0.15 }}
-  className="flex flex-col items-center"
->
-  <span className="text-lg md:text-xl font-medium text-white/45 tracking-[0.08em]">
-    Contemporary fixed gear archive.
-  </span>
-</motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.9, delay: 0.15 }}
+            className="flex flex-col items-center"
+          >
+            <span className="text-lg md:text-xl font-medium text-white/45 tracking-[0.08em]">
+              Contemporary fixed gear archive.
+            </span>
+          </motion.div>
 
-{/* Spanish */}
-<motion.div
-  initial={{ opacity: 0, y: 24 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0.6 }}
-  transition={{ duration: 0.9, delay: 0.3 }}
-  className="flex flex-col items-center"
->
-  <span className="text-2xl md:text-4xl font-medium text-white tracking-tight">
-    Archivo contemporáneo del piñón fijo.
-  </span>
-</motion.div>
+          {/* Spanish */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.9, delay: 0.3 }}
+            className="flex flex-col items-center"
+          >
+            <span className="text-2xl md:text-4xl font-medium text-white tracking-tight leading-tight">
+              Archivo contemporáneo del piñón fijo.
+            </span>
+          </motion.div>
 
         </div>
 
@@ -92,7 +92,7 @@ function HomePage() {
               Entrar
             </span>
 
-            <span className="text-sm text-white/30 uppercase tracking-[0.25em] mt-3 group-hover:text-white/70 transition-colors duration-500">
+            <span className="text-sm text-white/20 uppercase tracking-[0.25em] mt-3 group-hover:text-white/50 transition-colors duration-500">
               Enter
             </span>
           </Link>
