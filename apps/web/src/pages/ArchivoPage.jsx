@@ -1,97 +1,156 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import { archiveItems, categories } from '@/data/archiveItems.js';
 
-function ArchivoPage() {
-  const images = [
-    {
-      src: "https://images.unsplash.com/photo-1678524036151-e732770689fa?q=80&w=2670&auto=format&fit=crop",
-      alt: "Archive fragment 01",
-      aspect: "aspect-[3/4]"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1570148757044-121c3e1120bb?q=80&w=2670&auto=format&fit=crop",
-      alt: "Archive fragment 02",
-      aspect: "aspect-square"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1677359833064-e751eee4be50?q=80&w=2670&auto=format&fit=crop",
-      alt: "Archive fragment 03",
-      aspect: "aspect-[4/3]"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2671&auto=format&fit=crop",
-      alt: "Archive fragment 04",
-      aspect: "aspect-[3/4]"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=2622&auto=format&fit=crop",
-      alt: "Archive fragment 05",
-      aspect: "aspect-video"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1566371510328-9706bb4899da?q=80&w=2670&auto=format&fit=crop",
-      alt: "Archive fragment 06",
-      aspect: "aspect-square"
-    }
-  ];
+function Caption({ item }) {
+  return (
+    <figcaption className="mt-5 flex flex-col gap-1.5">
+      <span className="text-sm tracking-[0.32em] uppercase text-white/60">
+        {item.registro}
+      </span>
+      <span className="text-xs tracking-[0.18em] uppercase text-white/35">
+        {item.lugar}
+      </span>
+      {item.temporada && (
+        <span className="text-xs tracking-[0.18em] uppercase text-white/25">
+          {item.temporada}
+        </span>
+      )}
+      {item.nota && (
+        <span className="text-xs tracking-[0.18em] uppercase text-white/25">
+          {item.nota}
+        </span>
+      )}
+    </figcaption>
+  );
+}
+
+function Plate({ item, index }) {
+  // Every fourth registro becomes a full-page Featured Item.
+  const isFeatured = (index + 1) % 4 === 0;
+  const isVertical = item.orientation === 'vertical';
+
+  let width;
+  let aspectClass;
+  if (isFeatured) {
+    width = '96vw';
+    aspectClass = 'aspect-[16/10]';
+  } else if (isVertical) {
+    width = '48vw';
+    aspectClass = 'aspect-[3/4]';
+  } else {
+    width = '88vw';
+    aspectClass = 'aspect-[3/2]';
+  }
+
+  // Keep left/right alternation; Featured items center to break the rhythm.
+  const alignClass = isFeatured
+    ? 'self-center'
+    : index % 2 === 0
+    ? 'self-start'
+    : 'self-end';
 
   return (
-    <motion.main 
+    <motion.figure
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-12%' }}
+      transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+      style={{ width }}
+      className={`${alignClass} group`}
+    >
+      <div className="relative overflow-hidden cinematic-vignette">
+        <img
+          src={item.src}
+          alt={item.alt}
+          loading="lazy"
+          className={`w-full ${aspectClass} object-cover grayscale brightness-[0.9] transition-all duration-[1400ms] ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-[1.03]`}
+        />
+      </div>
+      <Caption item={item} />
+    </motion.figure>
+  );
+}
+
+function ArchivoPage() {
+  const [active, setActive] = useState('todos');
+
+  const filtered = useMemo(
+    () =>
+      active === 'todos'
+        ? archiveItems
+        : archiveItems.filter((item) => item.category === active),
+    [active]
+  );
+
+  return (
+    <motion.main
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1.5 }}
-      className="min-h-dvh bg-black text-white pt-32 pb-32"
+      className="min-h-dvh bg-black text-white pt-28 pb-40 overflow-x-hidden"
     >
       <Helmet>
         <title>FIXIETY | Archivo</title>
-        <meta name="description" content="Archivo visual. Visual archive." />
+        <meta name="description" content="Archivo visual del piñón fijo. Visual archive." />
       </Helmet>
 
-      <div className="container mx-auto px-6 max-w-7xl">
-        
-        {/* Header */}
-        <header className="mb-24 md:mb-40 text-center">
+      {/* Title + curatorial index — narrow, lets the photography dominate below */}
+      <div className="px-6 max-w-3xl mx-auto">
+        <header className="mb-4 md:mb-5 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="flex flex-col space-y-4 items-center"
+            transition={{ duration: 1, delay: 0.2 }}
+            className="flex flex-col items-center gap-2"
           >
-            <h1 className="text-4xl md:text-6xl font-bold tracking-widest uppercase">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight uppercase">
               Archivo
             </h1>
-            <span className="text-lg md:text-xl text-muted tracking-[0.3em] uppercase font-light">
+            <span className="text-xs md:text-sm text-white/30 tracking-[0.3em] uppercase font-light">
               Archive
             </span>
           </motion.div>
         </header>
 
-        {/* Cinematic Grid */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-8 md:gap-16 space-y-8 md:space-y-16">
-          {images.map((img, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 1.2, delay: (i % 3) * 0.2 }}
-              className="break-inside-avoid relative group overflow-hidden"
+        <motion.nav
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.45 }}
+          className="mb-10 md:mb-12 flex flex-wrap justify-center gap-x-7 gap-y-3"
+          aria-label="Categorías del archivo"
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat.key}
+              onClick={() => setActive(cat.key)}
+              className={`text-xs tracking-[0.25em] uppercase transition-colors duration-500 ${
+                active === cat.key ? 'text-white' : 'text-white/30 hover:text-white/60'
+              }`}
             >
-              <div className="relative cinematic-vignette w-full h-full">
-                <img 
-                  src={img.src} 
-                  alt={img.alt} 
-                  loading="lazy"
-                  className={`w-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105 ${img.aspect}`}
-                />
-              </div>
-            </motion.div>
+              {cat.es}
+            </button>
           ))}
-        </div>
-        
+        </motion.nav>
       </div>
+
+      {/* Editorial sequence — full width so vw sizes can dominate */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col gap-28 md:gap-44 px-[2vw]"
+        >
+          {filtered.map((item, index) => (
+            <Plate key={item.id} item={item} index={index} />
+          ))}
+        </motion.div>
+      </AnimatePresence>
     </motion.main>
   );
 }

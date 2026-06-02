@@ -2,8 +2,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
-import Header from '@/components/Header.jsx';
-import Footer from '@/components/Footer.jsx';
 
 function MagazinePage() {
   return (
@@ -14,8 +12,6 @@ function MagazinePage() {
       </Helmet>
 
       <div className="min-h-screen flex flex-col">
-        <Header />
-
         <main className="flex-1 flex items-center justify-center py-20 md:py-32">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -65,8 +61,6 @@ function MagazinePage() {
             </motion.div>
           </div>
         </main>
-
-        <Footer />
       </div>
     </>
   );

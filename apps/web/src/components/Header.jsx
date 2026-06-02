@@ -17,12 +17,10 @@ function Header() {
 
   const isHomePage = location.pathname === '/';
 
-  const navLinks = [
-    { path: '/entering', es: 'Acceder', en: 'Enter' },
-    { path: '/sistema', es: 'Sistema', en: 'System' },
-    { path: '/archivo', es: 'Archivo', en: 'Archive' },
-    { path: '/señal', es: 'Señal', en: 'Signal' },
-    { path: '/manifiesto', es: 'Manifiesto', en: 'Manifesto' }
+  const indexEntries = [
+    { path: '/archivo', primary: 'Archivo', secondary: 'Archive' },
+    { path: '/ediciones', primary: 'Ediciones', secondary: 'Editions' },
+    { path: '/cargando-pelicula', primary: '001', secondary: 'Developing Film' }
   ];
 
   return (
@@ -53,25 +51,36 @@ function Header() {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-40 bg-black/95 backdrop-blur-md flex items-center justify-center"
           >
-            <nav className="flex flex-col items-center justify-center space-y-12 w-full max-w-2xl px-6">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.path}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 + 0.2, duration: 0.8 }}
-                  className="text-center group"
-                >
-                  <Link to={link.path} className="flex flex-col items-center">
-                    <span className="text-4xl md:text-6xl font-bold tracking-tight text-white group-hover:text-white/70 transition-colors duration-500">
-                      {link.es}
-                    </span>
-                    <span className="text-sm md:text-base text-muted font-medium tracking-widest uppercase mt-2 group-hover:text-muted/70 transition-colors duration-500">
-                      {link.en}
-                    </span>
-                  </Link>
-                </motion.div>
-              ))}
+            <nav className="flex flex-col items-start w-full max-w-2xl px-10 md:px-16">
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.15, duration: 0.8 }}
+                className="mb-12 text-[0.7rem] tracking-[0.45em] uppercase text-white/25"
+              >
+                Índice
+              </motion.span>
+
+              <div className="flex flex-col items-start space-y-10 md:space-y-12">
+                {indexEntries.map((entry, index) => (
+                  <motion.div
+                    key={entry.path}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 + 0.25, duration: 0.8 }}
+                    className="group"
+                  >
+                    <Link to={entry.path} className="flex flex-col items-start">
+                      <span className="text-3xl md:text-5xl font-bold tracking-tight text-white group-hover:text-white/70 transition-colors duration-500">
+                        {entry.primary}
+                      </span>
+                      <span className="mt-1 text-xs md:text-sm text-white/35 tracking-[0.3em] uppercase group-hover:text-white/50 transition-colors duration-500">
+                        {entry.secondary}
+                      </span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
             </nav>
           </motion.div>
         )}
