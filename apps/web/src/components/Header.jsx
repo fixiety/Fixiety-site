@@ -71,7 +71,7 @@ function Header() {
                     className="group"
                   >
                     <Link to={entry.path} className="flex flex-col items-start">
-                      <span className="text-3xl md:text-5xl font-bold tracking-tight text-white group-hover:text-white/70 transition-colors duration-500">
+                      <span className="text-3xl md:text-5xl font-bold tracking-tight uppercase text-white group-hover:text-white/70 transition-colors duration-500">
                         {entry.primary}
                       </span>
                       <span className="mt-1 text-xs md:text-sm text-white/35 tracking-[0.3em] uppercase group-hover:text-white/50 transition-colors duration-500">
