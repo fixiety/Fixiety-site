@@ -23,8 +23,8 @@ function RegistroRow({ label, value }) {
 function VerifiedView({ data }) {
   return (
     <div className="w-full">
-      {/* Status */}
-      <div className="px-6 max-w-3xl mx-auto text-center">
+      {/* Certificate header */}
+      <div className="px-6 max-w-xl mx-auto text-center">
         <motion.span
           {...reveal}
           transition={{ duration: 1, delay: 0.2 }}
@@ -50,13 +50,41 @@ function VerifiedView({ data }) {
         </motion.span>
       </div>
 
+      {/* Registry */}
+      <motion.div
+        {...reveal}
+        transition={{ duration: 1, delay: 0.7 }}
+        className="mt-16 md:mt-20 px-6 max-w-xl mx-auto flex flex-col"
+      >
+        <RegistroRow label="Token" value={data.token} />
+        <RegistroRow label="Pieza" value={data.pieza} />
+        <RegistroRow label="Edición" value={data.edicion} />
+        <RegistroRow label="Estado" value={data.estado} />
+        <RegistroRow label="Año" value={data.anio} />
+      </motion.div>
+
+      {/* Editorial record */}
+      <motion.div
+        {...reveal}
+        transition={{ duration: 1, delay: 0.9 }}
+        className="mt-20 md:mt-28 px-6 max-w-xl mx-auto flex flex-col items-center text-center"
+      >
+        <div className="h-px w-24 bg-white/10" />
+        <span className="mt-10 text-xs tracking-[0.35em] uppercase text-white/35">
+          Registro
+        </span>
+        <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-white/60">
+          {data.historia}
+        </p>
+      </motion.div>
+
       {/* Dominant photograph */}
       <motion.figure
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.4, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.4, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
         style={{ width: '88vw' }}
-        className="mt-16 md:mt-24 mx-auto group"
+        className="mt-20 md:mt-28 mx-auto group"
       >
         <div className="relative overflow-hidden cinematic-vignette">
           <img
@@ -67,19 +95,6 @@ function VerifiedView({ data }) {
           />
         </div>
       </motion.figure>
-
-      {/* Registry */}
-      <motion.div
-        {...reveal}
-        transition={{ duration: 1, delay: 0.95 }}
-        className="mt-16 md:mt-24 px-6 max-w-xl mx-auto flex flex-col"
-      >
-        <RegistroRow label="Token" value={data.token} />
-        <RegistroRow label="Pieza" value={data.pieza} />
-        <RegistroRow label="Edición" value={data.edicion} />
-        <RegistroRow label="Estado" value={data.estado} />
-        <RegistroRow label="Año" value={data.anio} />
-      </motion.div>
     </div>
   );
 }
@@ -119,11 +134,19 @@ function DeniedView({ token }) {
         Access denied
       </motion.span>
 
+      <motion.p
+        {...reveal}
+        transition={{ duration: 1, delay: 0.9 }}
+        className="mt-14 max-w-sm text-base md:text-lg leading-relaxed text-white/45"
+      >
+        Este registro no existe dentro del archivo actual.
+      </motion.p>
+
       {token && (
         <motion.span
           {...reveal}
-          transition={{ duration: 1, delay: 0.9 }}
-          className="mt-16 block text-xs tracking-[0.25em] uppercase text-white/20"
+          transition={{ duration: 1, delay: 1.1 }}
+          className="mt-12 block text-xs tracking-[0.25em] uppercase text-white/20"
         >
           {token}
         </motion.span>
@@ -146,7 +169,7 @@ function FixIdPage() {
     >
       <Helmet>
         <title>FIXIETY | FixID</title>
-        <meta name="description" content="FixID. Sistema de verificación editorial." />
+        <meta name="description" content="FixID. Registro y verificación de piezas archivadas por Fixiety." />
       </Helmet>
 
       {data ? <VerifiedView data={data} /> : <DeniedView token={token ? token.toUpperCase() : ''} />}

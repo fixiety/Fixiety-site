@@ -7,7 +7,7 @@
  *
  * Etiqueta de la red, centralizada para renombrar en un solo lugar.
  */
-export const NETWORK_LABEL = 'Registro Fixiety ID';
+export const NETWORK_LABEL = 'Registro Fixiety';
 
 const UNSPLASH = (id, w = 1600) =>
   `https://images.unsplash.com/${id}?q=80&w=${w}&auto=format&fit=crop`;
@@ -19,6 +19,7 @@ const UNSPLASH = (id, w = 1600) =>
  *  - edicion  edición a la que pertenece
  *  - estado   estado de archivo
  *  - anio     año de registro
+ *  - historia historia breve de la pieza (registro editorial)
  *  - src/alt  fotografía placeholder
  */
 const tokens = {
@@ -28,6 +29,8 @@ const tokens = {
     edicion: 'Edición 001',
     estado: 'Archivo físico',
     anio: '2026',
+    historia:
+      'Esta pieza pertenece a la primera serie de objetos archivados por Fixiety. Construida a mano, una a una, para atravesar la ciudad.',
     src: UNSPLASH('photo-1540749046540-b7d8f98c7e4c'),
     alt: 'Musette de ciclismo sobre fondo oscuro',
   },
@@ -37,6 +40,8 @@ const tokens = {
     edicion: 'Edición 002',
     estado: 'Registro activo',
     anio: '2026',
+    historia:
+      'Objeto de registro de la segunda serie. Liga una pieza física a su rastro dentro del archivo Fixiety.',
     src: UNSPLASH('photo-1643294778211-a5873bd93f12'),
     alt: 'Objeto físico con tecnología NFC',
   },
@@ -46,6 +51,8 @@ const tokens = {
     edicion: 'Edición 003',
     estado: 'En proceso',
     anio: '2026',
+    historia:
+      'Registro visual de la tercera serie. Documenta el movimiento fijo contemporáneo bajo la luz nocturna de la ciudad.',
     src: UNSPLASH('photo-1556924145-957f113191fd'),
     alt: 'Fotografía nocturna de ciclismo urbano',
   },
