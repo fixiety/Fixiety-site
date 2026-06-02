@@ -14,7 +14,7 @@ function CargandoPeliculaPage() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1.5 }}
-      className="min-h-dvh bg-black text-white pt-28 pb-40 px-6 flex items-center justify-center overflow-x-hidden"
+      className="min-h-dvh bg-black text-white pt-24 md:pt-28 pb-24 md:pb-40 px-6 flex items-start md:items-center justify-center overflow-x-hidden"
     >
       <Helmet>
         <title>FIXIETY | Cargando Película</title>
@@ -35,7 +35,7 @@ function CargandoPeliculaPage() {
         <motion.h1
           {...reveal}
           transition={{ duration: 1, delay: 0.35 }}
-          className="mt-8 text-4xl md:text-6xl font-bold tracking-tight uppercase leading-[1.05]"
+          className="mt-6 md:mt-8 text-3xl md:text-6xl font-bold tracking-tight uppercase leading-[1.05]"
         >
           Cargando<br className="md:hidden" /> Película
         </motion.h1>
@@ -60,7 +60,7 @@ function CargandoPeliculaPage() {
         <motion.p
           {...reveal}
           transition={{ duration: 1, delay: 0.9 }}
-          className="mt-24 text-xl md:text-2xl tracking-tight text-white/80"
+          className="mt-14 md:mt-24 text-xl md:text-2xl tracking-tight text-white/80"
         >
           En proceso de revelado.
         </motion.p>
@@ -77,7 +77,7 @@ function CargandoPeliculaPage() {
         <motion.div
           {...reveal}
           transition={{ duration: 1, delay: 1.3 }}
-          className="mt-24 flex flex-col gap-3 text-lg md:text-2xl tracking-tight text-white/70"
+          className="mt-12 md:mt-24 flex flex-col gap-3 text-lg md:text-2xl tracking-tight text-white/70"
         >
           <span>Fotografía.</span>
           <span>Texto.</span>
@@ -89,7 +89,7 @@ function CargandoPeliculaPage() {
         <motion.div
           {...reveal}
           transition={{ duration: 1, delay: 1.6 }}
-          className="mt-28 flex flex-col items-center"
+          className="mt-14 md:mt-28 flex flex-col items-center"
         >
           <div className="h-px w-40 overflow-hidden bg-white/10">
             <motion.div
@@ -100,7 +100,7 @@ function CargandoPeliculaPage() {
             />
           </div>
 
-          <span className="mt-10 text-xs tracking-[0.35em] uppercase text-white/25">
+          <span className="mt-6 md:mt-10 text-xs tracking-[0.35em] uppercase text-white/25">
             Estado
           </span>
 
