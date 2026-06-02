@@ -5,18 +5,16 @@ import { Helmet } from 'react-helmet';
 
 function EnteringPage() {
   const navigate = useNavigate();
-  const [showSignal, setShowSignal] = useState(false);
+  const [showReveal, setShowReveal] = useState(false);
 
   useEffect(() => {
-    // Show signal text after a brief delay
     const showTimer = setTimeout(() => {
-      setShowSignal(true);
-    }, 1000);
+      setShowReveal(true);
+    }, 600);
 
-    // Auto-navigate to /sistema after a few seconds
     const navTimer = setTimeout(() => {
-      navigate('/sistema');
-    }, 4500);
+      navigate('/archivo');
+    }, 4200);
 
     return () => {
       clearTimeout(showTimer);
@@ -25,34 +23,46 @@ function EnteringPage() {
   }, [navigate]);
 
   return (
-    <motion.main 
+    <motion.main
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
-      className="min-h-dvh flex items-center justify-center bg-black"
+      className="min-h-dvh flex items-center justify-center bg-black px-6"
     >
       <Helmet>
-        <title>FIXIETY | Señal Detectada</title>
+        <title>FIXIETY | Revelando</title>
       </Helmet>
-      
-      <div className="flex flex-col items-center justify-center text-center">
-        {showSignal && (
-          <motion.div
-            initial={{ opacity: 0, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, filter: 'blur(0px)' }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="flex flex-col items-center space-y-6 glitch-text"
-          >
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white uppercase">
-              Señal detectada
-            </h1>
-            <p className="text-sm md:text-base tracking-[0.3em] text-muted uppercase">
-              Signal detected
-            </p>
-          </motion.div>
-        )}
-      </div>
+
+      {showReveal && (
+        <motion.div
+          initial={{ opacity: 0, filter: 'blur(14px)' }}
+          animate={{ opacity: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
+          className="flex flex-col items-center text-center"
+        >
+          <p className="mb-10 text-sm md:text-base tracking-[0.35em] text-white/35 uppercase">
+            FIXIETY
+          </p>
+
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white uppercase">
+            REVELANDO
+          </h1>
+
+          <p className="mt-6 text-sm md:text-base tracking-[0.3em] text-white/35">
+            Developing
+          </p>
+
+          <div className="mt-12 h-px w-48 overflow-hidden bg-white/10">
+            <motion.div
+              initial={{ width: '0%' }}
+              animate={{ width: '100%' }}
+              transition={{ duration: 2.4, ease: 'easeInOut' }}
+              className="h-full bg-white/60"
+            />
+          </div>
+        </motion.div>
+      )}
     </motion.main>
   );
 }
