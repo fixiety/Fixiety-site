@@ -63,10 +63,42 @@ function VerifiedView({ data }) {
         <RegistroRow label="Año" value={data.anio} />
       </motion.div>
 
-      {/* Editorial record */}
+      {/* Serie */}
       <motion.div
         {...reveal}
         transition={{ duration: 1, delay: 0.9 }}
+        className="mt-20 md:mt-28 px-6 max-w-xl mx-auto flex flex-col items-center text-center"
+      >
+        <div className="h-px w-24 bg-white/10" />
+        <span className="mt-10 text-xs tracking-[0.35em] uppercase text-white/35">
+          Serie
+        </span>
+        <span className="mt-4 text-lg md:text-2xl tracking-[0.15em] uppercase text-white/90">
+          {data.serie}
+        </span>
+      </motion.div>
+
+      {/* Archivo */}
+      <motion.div
+        {...reveal}
+        transition={{ duration: 1, delay: 1.1 }}
+        className="mt-20 md:mt-28 px-6 max-w-xl mx-auto flex flex-col items-center"
+      >
+        <div className="h-px w-24 bg-white/10" />
+        <span className="mt-10 text-xs tracking-[0.35em] uppercase text-white/35">
+          Archivo
+        </span>
+        <div className="mt-6 w-full flex flex-col">
+          <RegistroRow label="Ciudad" value={data.ciudad} />
+          <RegistroRow label="Año" value={data.anio} />
+          <RegistroRow label="Registro" value={data.token} />
+        </div>
+      </motion.div>
+
+      {/* Editorial record */}
+      <motion.div
+        {...reveal}
+        transition={{ duration: 1, delay: 1.3 }}
         className="mt-20 md:mt-28 px-6 max-w-xl mx-auto flex flex-col items-center text-center"
       >
         <div className="h-px w-24 bg-white/10" />
@@ -82,7 +114,7 @@ function VerifiedView({ data }) {
       <motion.figure
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.4, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.4, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
         style={{ width: '88vw' }}
         className="mt-20 md:mt-28 mx-auto group"
       >

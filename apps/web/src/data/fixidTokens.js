@@ -14,42 +14,50 @@ const UNSPLASH = (id, w = 1600) =>
 
 /**
  * Cada token contiene:
- *  - token    identificador, p. ej. "FX-001"
+ *  - token    identificador / registro, p. ej. "MUS-001"
  *  - pieza    nombre de la pieza
  *  - edicion  edición a la que pertenece
  *  - estado   estado de archivo
+ *  - serie    serie/colección a la que pertenece
+ *  - ciudad   ciudad de registro
  *  - anio     año de registro
  *  - historia historia breve de la pieza (registro editorial)
  *  - src/alt  fotografía placeholder
  */
 const tokens = {
-  'FX-001': {
-    token: 'FX-001',
+  'MUS-001': {
+    token: 'MUS-001',
     pieza: 'Musette',
     edicion: 'Edición 001',
     estado: 'Archivo físico',
+    serie: 'Archivo Fundacional',
+    ciudad: 'CDMX',
     anio: '2026',
     historia:
       'Primera pieza textil del archivo. Cortada y cosida a mano en lona y correa, pensada para cruzar la ciudad sin equipaje extra. Cada musette lleva una costura irregular que la vuelve única e irrepetible.',
     src: UNSPLASH('photo-1540749046540-b7d8f98c7e4c'),
     alt: 'Musette de ciclismo sobre fondo oscuro',
   },
-  'FX-002': {
-    token: 'FX-002',
+  'FID-001': {
+    token: 'FID-001',
     pieza: 'FixID',
     edicion: 'Edición 002',
     estado: 'Registro activo',
+    serie: 'Archivo Fundacional',
+    ciudad: 'CDMX',
     anio: '2026',
     historia:
       'Objeto de registro del archivo. Una etiqueta física que, al tocarla, abre la ficha de su pieza dentro de Fixiety. No guarda datos: solo confirma que el objeto existe y pertenece a una serie. Es la llave entre lo físico y la memoria visual.',
     src: UNSPLASH('photo-1643294778211-a5873bd93f12'),
     alt: 'Objeto físico con tecnología NFC',
   },
-  'FX-003': {
-    token: 'FX-003',
+  'FCP-001': {
+    token: 'FCP-001',
     pieza: 'Fotociclismo Pro',
     edicion: 'Edición 003',
     estado: 'En proceso',
+    serie: 'Archivo Fundacional',
+    ciudad: 'CDMX',
     anio: '2026',
     historia:
       'Serie fotográfica del archivo. Tomas nocturnas del piñón fijo registradas en calle, sin pose ni producción. Película y sensor capturan el movimiento tal como ocurre: borroso, encontrado, real. El registro permanece abierto: la serie sigue creciendo.',
