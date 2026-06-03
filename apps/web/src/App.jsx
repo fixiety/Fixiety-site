@@ -9,6 +9,7 @@ import ArchivoPage from './pages/ArchivoPage.jsx';
 import EdicionesPage from './pages/EdicionesPage.jsx';
 import CargandoPeliculaPage from './pages/CargandoPeliculaPage.jsx';
 import FixIdPage from './pages/FixIdPage.jsx';
+import FixIdAccessPage from './pages/FixIdAccessPage.jsx';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function AnimatedRoutes() {
         <Route path="/archivo" element={<ArchivoPage />} />
         <Route path="/ediciones" element={<EdicionesPage />} />
         <Route path="/cargando-pelicula" element={<CargandoPeliculaPage />} />
+        <Route path="/fixid/access" element={<FixIdAccessPage />} />
         <Route path="/fixid/:token" element={<FixIdPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
