@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build --prefix apps/web",
-  "outputDirectory": "apps/web/dist",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/((?!og-image\\.svg|og-image\\.png|favicon\\.ico|site\\.webmanifest|apple-touch-icon\\.png).*)",
