@@ -30,7 +30,7 @@ const tokens = {
     estado: 'Archivo físico',
     anio: '2026',
     historia:
-      'Esta pieza pertenece a la primera serie de objetos archivados por Fixiety. Construida a mano, una a una, para atravesar la ciudad.',
+      'Primera pieza textil del archivo. Cortada y cosida a mano en lona y correa, pensada para cruzar la ciudad sin equipaje extra. Cada musette lleva una costura irregular que la vuelve única e irrepetible.',
     src: UNSPLASH('photo-1540749046540-b7d8f98c7e4c'),
     alt: 'Musette de ciclismo sobre fondo oscuro',
   },
@@ -41,7 +41,7 @@ const tokens = {
     estado: 'Registro activo',
     anio: '2026',
     historia:
-      'Objeto de registro de la segunda serie. Liga una pieza física a su rastro dentro del archivo Fixiety.',
+      'Objeto de registro del archivo. Una etiqueta física que, al tocarla, abre la ficha de su pieza dentro de Fixiety. No guarda datos: solo confirma que el objeto existe y pertenece a una serie. Es la llave entre lo físico y la memoria visual.',
     src: UNSPLASH('photo-1643294778211-a5873bd93f12'),
     alt: 'Objeto físico con tecnología NFC',
   },
@@ -52,7 +52,7 @@ const tokens = {
     estado: 'En proceso',
     anio: '2026',
     historia:
-      'Registro visual de la tercera serie. Documenta el movimiento fijo contemporáneo bajo la luz nocturna de la ciudad.',
+      'Serie fotográfica del archivo. Tomas nocturnas del piñón fijo registradas en calle, sin pose ni producción. Película y sensor capturan el movimiento tal como ocurre: borroso, encontrado, real. El registro permanece abierto: la serie sigue creciendo.',
     src: UNSPLASH('photo-1556924145-957f113191fd'),
     alt: 'Fotografía nocturna de ciclismo urbano',
   },
