@@ -1,9 +1,9 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "outputDirectory": "apps/web/dist",
   "rewrites": [
     {
-      "source": "/((?!og-image\\.svg|og-image\\.png|favicon\\.ico|site\\.webmanifest|apple-touch-icon\\.png).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
