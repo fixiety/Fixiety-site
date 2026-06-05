@@ -26,6 +26,7 @@ function FixIdAccessPage() {
         return;
       }
 
+      console.log('[FixID debug] before rpc');
       const { data, error } = await supabase.rpc('fixid_begin_access', { k });
       if (cancelled) return;
 
@@ -33,6 +34,7 @@ function FixIdAccessPage() {
       console.log('[FixID debug] fixid_begin_access ->', { data, error });
 
       const row = Array.isArray(data) ? data[0] : data;
+      console.log('[FixID debug] rpc response', row);
 
       if (error || !row || !row.target) {
         setStatus('denied');
