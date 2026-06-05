@@ -144,8 +144,13 @@
   }
 
   @media (hover: none) {
-    .fx-photo {
-      filter: none;
+    /* Gris por defecto; color solo mientras se mantiene el dedo sobre la imagen.
+       El :active sobre la imagen cubre Archivo/Ediciones/FixID, y .group:active
+       cubre ProtectedImage (cuya <img> es pointer-events-none). Al soltar vuelve
+       a gris porque retoma el filtro base de .fx-photo. */
+    .fx-photo:active,
+    .group:active .fx-photo {
+      filter: grayscale(0) brightness(1);
     }
   }
 
