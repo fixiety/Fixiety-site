@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { archiveItems, categories } from '@/data/archiveItems.js';
+import ImageLightbox, { useLightbox } from '@/components/ImageLightbox.jsx';
 
 function Caption({ item }) {
   return (
@@ -26,7 +27,7 @@ function Caption({ item }) {
   );
 }
 
-function Plate({ item, index }) {
+function Plate({ item, index, onOpen }) {
   // Every fourth registro becomes a full-page Featured Item.
   const isFeatured = (index + 1) % 4 === 0;
   const isVertical = item.orientation === 'vertical';
@@ -60,12 +61,15 @@ function Plate({ item, index }) {
       style={{ width }}
       className={`${alignClass} group`}
     >
-      <div className="relative overflow-hidden cinematic-vignette">
+      <div
+        className="relative overflow-hidden cinematic-vignette cursor-zoom-in"
+        onClick={() => onOpen(item.src, item.alt)}
+      >
         <img
           src={item.src}
           alt={item.alt}
           loading="lazy"
-          className={`w-full ${aspectClass} object-cover grayscale brightness-[0.9] transition-all duration-[1400ms] ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-[1.03]`}
+          className={`fx-photo w-full ${aspectClass} object-cover`}
         />
       </div>
       <Caption item={item} />
@@ -75,6 +79,7 @@ function Plate({ item, index }) {
 
 function ArchivoPage() {
   const [active, setActive] = useState('todos');
+  const lightbox = useLightbox();
 
   const filtered = useMemo(
     () =>
@@ -147,10 +152,12 @@ function ArchivoPage() {
           className="flex flex-col gap-28 md:gap-44 px-[2vw]"
         >
           {filtered.map((item, index) => (
-            <Plate key={item.id} item={item} index={index} />
+            <Plate key={item.id} item={item} index={index} onOpen={lightbox.open} />
           ))}
         </motion.div>
       </AnimatePresence>
+
+      <ImageLightbox image={lightbox.image} onClose={lightbox.close} />
     </motion.main>
   );
 }

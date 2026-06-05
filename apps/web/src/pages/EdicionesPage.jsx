@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { editionItems } from '@/data/editionItems.js';
+import ImageLightbox, { useLightbox } from '@/components/ImageLightbox.jsx';
 
 function EditionCaption({ item }) {
   return (
@@ -22,7 +23,7 @@ function EditionCaption({ item }) {
   );
 }
 
-function EditionPlate({ item, index }) {
+function EditionPlate({ item, index, onOpen }) {
   const isVertical = item.orientation === 'vertical';
   const width = isVertical ? '48vw' : '88vw';
   const aspectClass = isVertical ? 'aspect-[3/4]' : 'aspect-[3/2]';
@@ -37,12 +38,15 @@ function EditionPlate({ item, index }) {
       style={{ width }}
       className={`${alignClass} group`}
     >
-      <div className="relative overflow-hidden cinematic-vignette">
+      <div
+        className="relative overflow-hidden cinematic-vignette cursor-zoom-in"
+        onClick={() => onOpen(item.src, item.alt)}
+      >
         <img
           src={item.src}
           alt={item.alt}
           loading="lazy"
-          className={`w-full ${aspectClass} object-cover grayscale brightness-[0.9] transition-all duration-[1400ms] ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-[1.03]`}
+          className={`fx-photo w-full ${aspectClass} object-cover`}
         />
       </div>
       <EditionCaption item={item} />
@@ -51,6 +55,8 @@ function EditionPlate({ item, index }) {
 }
 
 function EdicionesPage() {
+  const lightbox = useLightbox();
+
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -87,9 +93,11 @@ function EdicionesPage() {
       {/* Editorial sequence — full width so the photography dominates */}
       <div className="flex flex-col gap-32 md:gap-48 px-[2vw]">
         {editionItems.map((item, index) => (
-          <EditionPlate key={item.id} item={item} index={index} />
+          <EditionPlate key={item.id} item={item} index={index} onOpen={lightbox.open} />
         ))}
       </div>
+
+      <ImageLightbox image={lightbox.image} onClose={lightbox.close} />
     </motion.main>
   );
 }

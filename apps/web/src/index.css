@@ -124,4 +124,32 @@
   .cinematic-vignette::before {
     display: none;
   }
+
+  /*
+   * Tratamiento fotográfico Fixiety.
+   * - Desktop (hover disponible): inicia en blanco y negro y pasa a color en hover.
+   * - Móvil / touch (sin hover): se muestra en color directamente.
+   * - En lightbox: siempre color (.fx-photo-full).
+   */
+  .fx-photo {
+    filter: grayscale(1) brightness(0.9);
+    transition: filter 1400ms ease, transform 1400ms ease;
+  }
+
+  @media (hover: hover) {
+    .group:hover .fx-photo {
+      filter: grayscale(0) brightness(1);
+      transform: scale(1.03);
+    }
+  }
+
+  @media (hover: none) {
+    .fx-photo {
+      filter: none;
+    }
+  }
+
+  .fx-photo-full {
+    filter: none !important;
+  }
 }

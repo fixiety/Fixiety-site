@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import { supabase } from '@/lib/supabaseClient.js';
 import { NETWORK_LABEL, getSessionToken, clearSessionToken } from '@/lib/fixid.js';
 import ProtectedImage from '@/components/ProtectedImage.jsx';
+import ImageLightbox, { useLightbox } from '@/components/ImageLightbox.jsx';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -88,6 +89,7 @@ function SessionPage() {
   const [assets, setAssets] = useState([]);
   const [downloaded, setDownloaded] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const lightbox = useLightbox();
 
   useEffect(() => {
     let cancelled = false;
@@ -202,6 +204,7 @@ function SessionPage() {
               alt={session.piece_name}
               watermark={session.registry_id}
               aspectClass="aspect-[16/10]"
+              onClick={() => lightbox.open(coverUrl, session.piece_name)}
             />
           </motion.figure>
         )}
@@ -251,6 +254,7 @@ function SessionPage() {
                   src={asset.url}
                   alt={`${session.piece_name} — ${asset.position ?? i + 1}`}
                   watermark={session.registry_id}
+                  onClick={() => lightbox.open(asset.url, `${session.piece_name} — ${asset.position ?? i + 1}`)}
                 />
               </motion.figure>
             ))}
@@ -285,6 +289,7 @@ function SessionPage() {
           )}
         </div>
       </div>
+      <ImageLightbox image={lightbox.image} onClose={lightbox.close} />
     </Shell>
   );
 }

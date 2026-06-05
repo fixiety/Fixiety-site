@@ -8,18 +8,21 @@ import React from 'react';
  *  - sin links de descarga directos
  *  - watermark tenue opcional
  */
-function ProtectedImage({ src, alt, watermark, aspectClass = 'aspect-[3/2]' }) {
+function ProtectedImage({ src, alt, watermark, aspectClass = 'aspect-[3/2]', onClick }) {
   return (
     <div
-      className="relative overflow-hidden cinematic-vignette select-none"
+      className={`group relative overflow-hidden cinematic-vignette select-none ${
+        onClick ? 'cursor-zoom-in' : ''
+      }`}
       onContextMenu={(e) => e.preventDefault()}
+      onClick={onClick}
     >
       <img
         src={src}
         alt={alt}
         draggable={false}
         loading="lazy"
-        className={`w-full ${aspectClass} object-cover grayscale brightness-[0.9] transition-all duration-[1400ms] ease-out select-none pointer-events-none`}
+        className={`fx-photo w-full ${aspectClass} object-cover select-none pointer-events-none`}
       />
       {watermark && (
         <div className="pointer-events-none absolute inset-0 flex items-end justify-end p-4 md:p-6">

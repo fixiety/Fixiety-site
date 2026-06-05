@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { supabase } from '@/lib/supabaseClient.js';
 import { NETWORK_LABEL, hasAccess } from '@/lib/fixid.js';
+import ImageLightbox, { useLightbox } from '@/components/ImageLightbox.jsx';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -39,7 +40,7 @@ function Shell({ children }) {
   );
 }
 
-function FullView({ record }) {
+function FullView({ record, onOpenImage }) {
   return (
     <div className="w-full">
       {/* Certificate header */}
@@ -132,12 +133,15 @@ function FullView({ record }) {
           style={{ width: '88vw' }}
           className="mt-20 md:mt-28 mx-auto group"
         >
-          <div className="relative overflow-hidden cinematic-vignette">
+          <div
+            className="relative overflow-hidden cinematic-vignette cursor-zoom-in"
+            onClick={() => onOpenImage(record.image_url, record.piece_name)}
+          >
             <img
               src={record.image_url}
               alt={record.piece_name}
               loading="lazy"
-              className="w-full aspect-[3/2] object-cover grayscale brightness-[0.9] transition-all duration-[1400ms] ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-[1.03]"
+              className="fx-photo w-full aspect-[3/2] object-cover"
             />
           </div>
         </motion.figure>
@@ -236,6 +240,7 @@ function FixIdPage() {
   const { token } = useParams();
   const [view, setView] = useState('loading'); // 'loading' | 'full' | 'public' | 'notfound'
   const [record, setRecord] = useState(null);
+  const lightbox = useLightbox();
 
   useEffect(() => {
     let cancelled = false;
@@ -277,7 +282,8 @@ function FixIdPage() {
       {view === 'loading' && <Loading />}
       {view === 'notfound' && <NotFoundView />}
       {view === 'public' && record && <PublicView record={record} />}
-      {view === 'full' && record && <FullView record={record} />}
+      {view === 'full' && record && <FullView record={record} onOpenImage={lightbox.open} />}
+      <ImageLightbox image={lightbox.image} onClose={lightbox.close} />
     </Shell>
   );
 }
