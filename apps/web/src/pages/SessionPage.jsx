@@ -84,6 +84,7 @@ function SessionPage() {
   const { sessionId } = useParams();
   const [view, setView] = useState('loading'); // 'loading' | 'denied' | 'ready'
   const [session, setSession] = useState(null);
+  const [coverUrl, setCoverUrl] = useState(null);
   const [assets, setAssets] = useState([]);
   const [downloaded, setDownloaded] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -92,16 +93,9 @@ function SessionPage() {
     let cancelled = false;
 
     async function load() {
-      // [FixID debug] sessionId recibido + token leído
-      console.log('[FixID debug] SessionPage sessionId ->', sessionId);
       const token = getSessionToken(sessionId);
-      console.log('[FixID debug] token read ->', token);
 
       if (!token || !supabase) {
-        console.log('[FixID debug] denied (a): sin token o sin supabase', {
-          hasToken: !!token,
-          hasSupabase: !!supabase,
-        });
         if (!cancelled) setView('denied');
         return;
       }
@@ -112,17 +106,14 @@ function SessionPage() {
 
       if (cancelled) return;
 
-      // [FixID debug] respuesta de la Edge Function
-      console.log('[FixID debug] session-view ->', { data, error });
-
       if (error || !data || data.error || !data.session) {
-        console.log('[FixID debug] denied (b): session-view falló', { error, data });
         clearSessionToken(sessionId);
         setView('denied');
         return;
       }
 
       setSession(data.session);
+      setCoverUrl(data.cover_url ?? null);
       setAssets(Array.isArray(data.assets) ? data.assets : []);
       setDownloaded(data.session.download_count >= data.session.download_limit);
       setView('ready');
@@ -196,6 +187,24 @@ function SessionPage() {
             {session.series}
           </motion.span>
         </div>
+
+        {/* Cover dominante */}
+        {coverUrl && (
+          <motion.figure
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.4, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-16 md:mt-20 mx-auto px-[2vw]"
+            style={{ width: '92vw' }}
+          >
+            <ProtectedImage
+              src={coverUrl}
+              alt={session.piece_name}
+              watermark={session.registry_id}
+              aspectClass="aspect-[16/10]"
+            />
+          </motion.figure>
+        )}
 
         {/* Ficha */}
         <motion.div

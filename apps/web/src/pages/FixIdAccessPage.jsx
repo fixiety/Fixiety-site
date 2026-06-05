@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { supabase } from '@/lib/supabaseClient.js';
-import { NETWORK_LABEL, grantAccess, storeSessionToken, getSessionToken } from '@/lib/fixid.js';
+import { NETWORK_LABEL, grantAccess, storeSessionToken } from '@/lib/fixid.js';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -26,15 +26,10 @@ function FixIdAccessPage() {
         return;
       }
 
-      console.log('[FixID debug] before rpc');
       const { data, error } = await supabase.rpc('fixid_begin_access', { k });
       if (cancelled) return;
 
-      // [FixID debug] respuesta completa del RPC
-      console.log('[FixID debug] fixid_begin_access ->', { data, error });
-
       const row = Array.isArray(data) ? data[0] : data;
-      console.log('[FixID debug] rpc response', row);
 
       if (error || !row || !row.target) {
         setStatus('denied');
@@ -43,14 +38,7 @@ function FixIdAccessPage() {
 
       // URL final limpia, sin la secret key:
       if (row.type === 'photo_session') {
-        // [FixID debug] qué se va a guardar
-        console.log('[FixID debug] storing session token ->', {
-          target: row.target,
-          access_token: row.access_token,
-          expires_at: row.expires_at,
-        });
         storeSessionToken(row.target, row.access_token);
-        console.log('[FixID debug] stored token (read-back) ->', getSessionToken(row.target));
         navigate(`/session/${row.target}`, { replace: true });
       } else {
         grantAccess(row.target);

@@ -46,12 +46,22 @@ Deno.serve(async (req) => {
     // 2) Ficha de la sesión
     const { data: session } = await supabase
       .from('photo_sessions')
-      .select('public_id, title, registry_id, piece_name, series, status, year, city, story, download_limit, download_count')
+      .select('public_id, title, registry_id, piece_name, series, status, year, city, story, cover_image_url, download_limit, download_count')
       .eq('public_id', session_public_id)
       .eq('is_active', true)
       .maybeSingle();
 
     if (!session) return json({ error: 'not_found' }, 404);
+
+    // 2.1) Cover => signed URL temporal (no exponer la ruta cruda del bucket)
+    let cover_url: string | null = null;
+    if (session.cover_image_url) {
+      const { data: signedCover } = await supabase.storage
+        .from(BUCKET)
+        .createSignedUrl(session.cover_image_url, ASSET_TTL);
+      cover_url = signedCover?.signedUrl ?? null;
+    }
+    const { cover_image_url: _coverPath, ...sessionPublic } = session;
 
     // 3) Assets => signed URLs temporales
     const { data: rows } = await supabase
@@ -70,7 +80,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    return json({ session, assets });
+    return json({ session: sessionPublic, cover_url, assets });
   } catch (e) {
     return json({ error: String(e) }, 500);
   }
