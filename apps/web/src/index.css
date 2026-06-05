@@ -133,7 +133,7 @@
    */
   .fx-photo {
     filter: grayscale(1) brightness(0.9);
-    transition: filter 1400ms ease, transform 1400ms ease;
+    transition: filter 500ms ease, transform 500ms ease;
   }
 
   @media (hover: hover) {
