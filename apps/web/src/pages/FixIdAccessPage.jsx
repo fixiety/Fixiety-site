@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { supabase } from '@/lib/supabaseClient.js';
-import { NETWORK_LABEL, grantAccess } from '@/lib/fixid.js';
+import { NETWORK_LABEL, grantAccess, storeSessionToken } from '@/lib/fixid.js';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -26,19 +26,24 @@ function FixIdAccessPage() {
         return;
       }
 
-      const { data, error } = await supabase.rpc('fixid_resolve_secret', { k });
+      const { data, error } = await supabase.rpc('fixid_begin_access', { k });
       if (cancelled) return;
 
-      const publicId = Array.isArray(data) ? data[0] : data;
+      const row = Array.isArray(data) ? data[0] : data;
 
-      if (error || !publicId) {
+      if (error || !row || !row.target) {
         setStatus('denied');
         return;
       }
 
-      grantAccess(publicId);
       // URL final limpia, sin la secret key:
-      navigate(`/fixid/${publicId}`, { replace: true });
+      if (row.type === 'photo_session') {
+        storeSessionToken(row.target, row.access_token);
+        navigate(`/session/${row.target}`, { replace: true });
+      } else {
+        grantAccess(row.target);
+        navigate(`/fixid/${row.target}`, { replace: true });
+      }
     }
 
     resolve();

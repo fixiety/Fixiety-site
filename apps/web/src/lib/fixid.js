@@ -31,3 +31,33 @@ export function hasAccess(publicId) {
     return false;
   }
 }
+
+/* --- FixID Sessions (Opción B): token efímero emitido por el servidor --- */
+const SESSION_PREFIX = 'fixid_session_';
+
+export function storeSessionToken(sessionId, token) {
+  if (!sessionId || !token) return;
+  try {
+    sessionStorage.setItem(SESSION_PREFIX + sessionId, token);
+  } catch (e) {
+    // sessionStorage no disponible
+  }
+}
+
+export function getSessionToken(sessionId) {
+  if (!sessionId) return null;
+  try {
+    return sessionStorage.getItem(SESSION_PREFIX + sessionId);
+  } catch (e) {
+    return null;
+  }
+}
+
+export function clearSessionToken(sessionId) {
+  if (!sessionId) return;
+  try {
+    sessionStorage.removeItem(SESSION_PREFIX + sessionId);
+  } catch (e) {
+    // noop
+  }
+}

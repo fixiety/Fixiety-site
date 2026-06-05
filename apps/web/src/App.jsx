@@ -10,6 +10,7 @@ import EdicionesPage from './pages/EdicionesPage.jsx';
 import CargandoPeliculaPage from './pages/CargandoPeliculaPage.jsx';
 import FixIdPage from './pages/FixIdPage.jsx';
 import FixIdAccessPage from './pages/FixIdAccessPage.jsx';
+import SessionPage from './pages/SessionPage.jsx';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function AnimatedRoutes() {
         <Route path="/cargando-pelicula" element={<CargandoPeliculaPage />} />
         <Route path="/fixid/access" element={<FixIdAccessPage />} />
         <Route path="/fixid/:token" element={<FixIdPage />} />
+        <Route path="/session/:sessionId" element={<SessionPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>
