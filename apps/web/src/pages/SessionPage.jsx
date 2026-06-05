@@ -92,8 +92,16 @@ function SessionPage() {
     let cancelled = false;
 
     async function load() {
+      // [FixID debug] sessionId recibido + token leído
+      console.log('[FixID debug] SessionPage sessionId ->', sessionId);
       const token = getSessionToken(sessionId);
+      console.log('[FixID debug] token read ->', token);
+
       if (!token || !supabase) {
+        console.log('[FixID debug] denied (a): sin token o sin supabase', {
+          hasToken: !!token,
+          hasSupabase: !!supabase,
+        });
         if (!cancelled) setView('denied');
         return;
       }
@@ -104,7 +112,11 @@ function SessionPage() {
 
       if (cancelled) return;
 
+      // [FixID debug] respuesta de la Edge Function
+      console.log('[FixID debug] session-view ->', { data, error });
+
       if (error || !data || data.error || !data.session) {
+        console.log('[FixID debug] denied (b): session-view falló', { error, data });
         clearSessionToken(sessionId);
         setView('denied');
         return;

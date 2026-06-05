@@ -59,7 +59,7 @@ alter table public.session_access enable row level security;
 -- 5) RPC: iniciar acceso (objetos y sesiones) -------------------------
 -- Objetos: devuelve (type='object', target=public_id, sin token).
 -- Sesiones: crea token efímero y devuelve (type='photo_session', target=session.public_id, access_token, expires_at).
-create or replace function public.fixid_begin_access(k text)
+create or replace function public.fixid_begin_access(...)
 returns table(type text, target text, access_token text, expires_at timestamptz)
 language plpgsql
 security definer
@@ -83,7 +83,7 @@ begin
     if not found then
       return;
     end if;
-    new_token := encode(gen_random_bytes(24), 'hex');
+    new_token := encode(extensions.gen_random_bytes(24), 'hex');
     exp := now() + interval '2 hours';
     insert into public.session_access(token, session_public_id, expires_at)
       values (new_token, sess.public_id, exp);
