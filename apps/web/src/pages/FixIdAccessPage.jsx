@@ -20,13 +20,14 @@ function FixIdAccessPage() {
 
     async function resolve() {
       const k = params.get('k');
+      const uid = params.get('uid');
 
-      if (!k || !supabase) {
+      if ((!k && !uid) || !supabase) {
         if (!cancelled) setStatus('denied');
         return;
       }
 
-      const { data, error } = await supabase.rpc('fixid_begin_access', { k });
+      const { data, error } = await supabase.rpc('fixid_begin_access', { k, uid });
       if (cancelled) return;
 
       const row = Array.isArray(data) ? data[0] : data;

@@ -11,6 +11,11 @@ alter table public.tokens
   add column if not exists type text not null default 'object';
   -- valores: 'object' | 'photo_session'
 
+-- 1.1) Acceso por UID de tag NFC (experimental, opcional) -------------
+alter table public.tokens
+  add column if not exists nfc_uid text unique;
+  -- opcional; no reemplaza secret_key. Permite /fixid/access?uid=TAG_ID
+
 -- 2) Sesiones fotográficas --------------------------------------------
 create table if not exists public.photo_sessions (
   id uuid primary key default gen_random_uuid(),
@@ -59,7 +64,11 @@ alter table public.session_access enable row level security;
 -- 5) RPC: iniciar acceso (objetos y sesiones) -------------------------
 -- Objetos: devuelve (type='object', target=public_id, sin token).
 -- Sesiones: crea token efímero y devuelve (type='photo_session', target=session.public_id, access_token, expires_at).
-create or replace function public.fixid_begin_access(...)
+-- Acepta dos parámetros opcionales: k (secret_key) o uid (nfc_uid).
+-- Se elimina la firma anterior de un argumento para evitar overload ambiguo.
+drop function if exists public.fixid_begin_access(text);
+
+create or replace function public.fixid_begin_access(k text default null, uid text default null)
 returns table(type text, target text, access_token text, expires_at timestamptz)
 language plpgsql
 security definer
@@ -71,10 +80,18 @@ declare
   new_token text;
   exp timestamptz;
 begin
-  select * into t from public.tokens
-    where secret_key = k and is_active = true limit 1;
+  if k is not null and k <> '' then
+    select * into t from public.tokens
+      where secret_key = k and is_active = true limit 1;
+  elsif uid is not null and uid <> '' then
+    select * into t from public.tokens
+      where nfc_uid = uid and is_active = true limit 1;
+  else
+    return; -- ni k ni uid => denegado
+  end if;
+
   if not found then
-    return; -- vacío => denegado
+    return; -- sin coincidencia => denegado
   end if;
 
   if coalesce(t.type, 'object') = 'photo_session' then
@@ -83,7 +100,7 @@ begin
     if not found then
       return;
     end if;
-    new_token := encode(extensions.gen_random_bytes(24), 'hex');
+    new_token := encode(public.gen_random_bytes(24), 'hex');
     exp := now() + interval '2 hours';
     insert into public.session_access(token, session_public_id, expires_at)
       values (new_token, sess.public_id, exp);
@@ -93,7 +110,7 @@ begin
   end if;
 end;
 $$;
-grant execute on function public.fixid_begin_access(text) to anon;
+grant execute on function public.fixid_begin_access(text, text) to anon;
 
 -- 6) RPC: consumir descarga única (atómico) ---------------------------
 -- Lo invoca la Edge Function (service role) tras validar el token.
