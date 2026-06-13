@@ -26,8 +26,8 @@ function HomePage() {
           initial={{ scale: 1.08, y: 0 }}
           whileInView={{ scale: 1, y: -60 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          src="https://images.unsplash.com/photo-1551887293-297ce7d00177?q=80&w=2574&auto=format&fit=crop"
-          alt="Urban night cycling"
+          src="https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/home-hero-001.jpg"
+          alt="Archivo Fixiety"
           className="w-full h-full object-cover object-center brightness-[0.85] contrast-[1.05]"
         />
       </div>
