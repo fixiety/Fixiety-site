@@ -4,18 +4,24 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { supabase } from '@/lib/supabaseClient.js';
 import { NETWORK_LABEL, hasAccess } from '@/lib/fixid.js';
+import { parseInstagram } from '@/lib/instagram.js';
 import ImageLightbox, { useLightbox } from '@/components/ImageLightbox.jsx';
+import OwnerHandleLink from '@/components/OwnerHandleLink.jsx';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
 };
 
-function RegistroRow({ label, value }) {
+function RegistroRow({ label, value, normalCase = false }) {
   return (
     <div className="flex items-baseline justify-between gap-6 border-b border-white/10 py-4">
       <span className="text-xs tracking-[0.3em] uppercase text-white/35">{label}</span>
-      <span className="text-sm md:text-base tracking-[0.15em] uppercase text-white/90 text-right">
+      <span
+        className={`text-sm md:text-base tracking-[0.15em] text-white/90 text-right ${
+          normalCase ? 'normal-case' : 'uppercase'
+        }`}
+      >
         {value}
       </span>
     </div>
@@ -81,6 +87,13 @@ function FullView({ record, onOpenImage }) {
         <RegistroRow label="Edición" value={record.edition} />
         <RegistroRow label="Estado" value={record.status} />
         <RegistroRow label="Año" value={record.year} />
+        {parseInstagram(record.owner_handle) && (
+          <RegistroRow
+            label="Propietario"
+            value={<OwnerHandleLink value={record.owner_handle} />}
+            normalCase
+          />
+        )}
       </motion.div>
 
       {/* Serie */}

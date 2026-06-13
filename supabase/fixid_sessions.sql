@@ -85,7 +85,8 @@ begin
       where secret_key = k and is_active = true limit 1;
   elsif uid is not null and uid <> '' then
     select * into t from public.tokens
-      where nfc_uid = uid and is_active = true limit 1;
+      where replace(upper(nfc_uid), ':', '') = replace(upper(uid), ':', '')
+        and is_active = true limit 1;
   else
     return; -- ni k ni uid => denegado
   end if;

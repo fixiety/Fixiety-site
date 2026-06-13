@@ -46,12 +46,24 @@ Deno.serve(async (req) => {
     // 2) Ficha de la sesión
     const { data: session } = await supabase
       .from('photo_sessions')
-      .select('public_id, title, registry_id, piece_name, series, status, year, city, story, cover_image_url, download_limit, download_count')
+      .select('public_id, token_public_id, title, registry_id, piece_name, series, status, year, city, story, cover_image_url, download_limit, download_count')
       .eq('public_id', session_public_id)
       .eq('is_active', true)
       .maybeSingle();
 
     if (!session) return json({ error: 'not_found' }, 404);
+
+    // 2.0) Propietario => owner_handle desde public.tokens (fuente única).
+    // Solo se lee owner_handle; nunca secret_key ni nfc_uid.
+    let owner_handle: string | null = null;
+    if (session.token_public_id) {
+      const { data: tok } = await supabase
+        .from('tokens')
+        .select('owner_handle')
+        .eq('public_id', session.token_public_id)
+        .maybeSingle();
+      owner_handle = tok?.owner_handle ?? null;
+    }
 
     // 2.1) Cover => signed URL temporal (no exponer la ruta cruda del bucket)
     let cover_url: string | null = null;
@@ -61,7 +73,8 @@ Deno.serve(async (req) => {
         .createSignedUrl(session.cover_image_url, ASSET_TTL);
       cover_url = signedCover?.signedUrl ?? null;
     }
-    const { cover_image_url: _coverPath, ...sessionPublic } = session;
+    const { cover_image_url: _coverPath, token_public_id: _tokenPid, ...sessionRest } = session;
+    const sessionPublic = { ...sessionRest, owner_handle };
 
     // 3) Assets => signed URLs temporales
     const { data: rows } = await supabase

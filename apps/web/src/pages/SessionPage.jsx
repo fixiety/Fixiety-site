@@ -6,6 +6,8 @@ import { supabase } from '@/lib/supabaseClient.js';
 import { NETWORK_LABEL, getSessionToken, clearSessionToken } from '@/lib/fixid.js';
 import ProtectedImage from '@/components/ProtectedImage.jsx';
 import ImageLightbox, { useLightbox } from '@/components/ImageLightbox.jsx';
+import OwnerHandleLink from '@/components/OwnerHandleLink.jsx';
+import { parseInstagram } from '@/lib/instagram.js';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -221,6 +223,9 @@ function SessionPage() {
           <RegistroRow label="Estado" value={session.status} />
           <RegistroRow label="Año" value={session.year} />
           <RegistroRow label="Ciudad" value={session.city} />
+          {parseInstagram(session.owner_handle) && (
+            <RegistroRow label="Propietario" value={<OwnerHandleLink value={session.owner_handle} />} />
+          )}
         </motion.div>
 
         {/* Registro editorial */}
