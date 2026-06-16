@@ -132,18 +132,13 @@ export function AudioProvider({ children }) {
         onClick={toggle}
         aria-label={isPlaying ? 'Apagar sonido' : 'Encender sonido'}
         aria-pressed={isPlaying}
-        title={currentTrack.title || undefined}
+        title={isPlaying && currentTrack.title ? currentTrack.title : undefined}
         className="fixed bottom-5 right-5 md:bottom-6 md:right-6 z-[60] max-w-[70vw] px-3 py-2 text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/35 hover:text-white/80 transition-colors duration-500 select-none"
       >
-        <span className="flex flex-col items-end text-right leading-tight md:flex-row md:items-center">
-          {currentTrack.title && (
+        <span className="flex flex-col items-end text-right leading-tight md:flex-row md:items-center md:gap-2">
+          {isPlaying && currentTrack.title && (
             <span className="max-w-[60vw] md:max-w-[34vw] truncate normal-case tracking-[0.15em] text-white/40">
               {currentTrack.title}
-            </span>
-          )}
-          {currentTrack.title && (
-            <span className="hidden md:inline mx-2 text-white/20" aria-hidden="true">
-              •
             </span>
           )}
           <span className="flex items-center gap-2">
