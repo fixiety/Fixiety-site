@@ -20,18 +20,20 @@ function HomePage() {
         />
       </Helmet>
 
-      {/* Background Image */}
-      <div className="sticky top-0 h-dvh z-0 overflow-hidden relative">
-        <motion.img
-          initial={{ scale: 1.08, y: 0 }}
-          whileInView={{ scale: 1, y: -60 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          src="https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/home-hero-001.jpg"
-          alt="Archivo Fixiety"
-          className="w-full h-full object-cover object-center brightness-[0.85] contrast-[1.05]"
-        />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 md:h-56 bg-gradient-to-b from-transparent via-black/60 to-black" />
-      </div>
+      {/* Hero — mobile: encuadre actual; desktop: imagen completa con scroll reveal */}
+      <section className="relative bg-black min-h-[100dvh] md:min-h-[150vh]">
+        <div className="sticky top-0 z-0 h-dvh md:h-screen relative overflow-hidden bg-black flex items-center justify-center">
+          <motion.img
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, ease: 'easeOut' }}
+            src="https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/home-hero-001.jpg"
+            alt="Archivo Fixiety"
+            className="w-full h-full object-cover object-center md:object-contain md:max-h-screen mx-auto brightness-[0.85] contrast-[1.05]"
+          />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 md:h-72 bg-gradient-to-b from-transparent via-black/70 to-black" />
+        </div>
+      </section>
 
       {/* Content Container */}
       <div className="relative z-10 -mt-[100dvh] min-h-dvh flex flex-col items-center justify-end text-center px-6 pb-32 md:pb-40 max-w-4xl mx-auto">
