@@ -26,41 +26,6 @@ function RegistroRow({ label, value }) {
   );
 }
 
-function SessionGalleryPlate({ asset, index, alt, watermark, onOpen }) {
-  const [orientation, setOrientation] = useState(null);
-
-  const handleLoad = (e) => {
-    const { naturalWidth, naturalHeight } = e.currentTarget;
-    setOrientation(naturalWidth >= naturalHeight ? 'landscape' : 'portrait');
-  };
-
-  const isPortrait = orientation === 'portrait';
-  const figureClass = isPortrait
-    ? `overflow-hidden bg-black/40 mx-auto w-full max-w-[88vw] md:max-w-lg my-10 md:my-16 ${
-        index % 2 === 0 ? 'md:mr-auto md:ml-[5vw]' : 'md:ml-auto md:mr-[5vw]'
-      }`
-    : 'overflow-hidden bg-black/40 mx-auto w-full max-w-6xl my-10 md:my-14';
-
-  return (
-    <motion.figure
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-12%' }}
-      transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-      className={figureClass}
-    >
-      <ProtectedImage
-        src={asset.url}
-        alt={alt}
-        watermark={watermark}
-        natural
-        onLoad={handleLoad}
-        onClick={onOpen}
-      />
-    </motion.figure>
-  );
-}
-
 function Shell({ children }) {
   return (
     <motion.main
@@ -290,18 +255,26 @@ function SessionPage() {
           </motion.div>
         )}
 
-        {/* Galería — layout editorial/museo por orientación */}
+        {/* Galería */}
         {assets.length > 0 && (
-          <div className="mt-24 md:mt-32 w-full px-4 md:px-8">
+          <div className="mt-24 md:mt-32 px-6 md:px-10 max-w-6xl mx-auto columns-1 md:columns-2 gap-4 md:gap-6">
             {assets.map((asset, i) => (
-              <SessionGalleryPlate
+              <motion.figure
                 key={asset.url + i}
-                asset={asset}
-                index={i}
-                alt={`${session.piece_name} — ${asset.position ?? i + 1}`}
-                watermark={session.registry_id}
-                onOpen={() => lightbox.open(asset.url, `${session.piece_name} — ${asset.position ?? i + 1}`)}
-              />
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-12%' }}
+                transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+                className="break-inside-avoid mb-4 md:mb-6 overflow-hidden bg-black/40"
+              >
+                <ProtectedImage
+                  src={asset.url}
+                  alt={`${session.piece_name} — ${asset.position ?? i + 1}`}
+                  watermark={session.registry_id}
+                  natural
+                  onClick={() => lightbox.open(asset.url, `${session.piece_name} — ${asset.position ?? i + 1}`)}
+                />
+              </motion.figure>
             ))}
           </div>
         )}
