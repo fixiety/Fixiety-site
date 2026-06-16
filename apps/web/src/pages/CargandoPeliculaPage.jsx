@@ -62,7 +62,7 @@ function CargandoPeliculaPage() {
           transition={{ duration: 1, delay: 0.9 }}
           className="mt-14 md:mt-24 text-xl md:text-2xl tracking-tight text-white/80"
         >
-          En proceso de revelado.
+          En proceso de revelado
         </motion.p>
 
         <motion.p
@@ -79,10 +79,10 @@ function CargandoPeliculaPage() {
           transition={{ duration: 1, delay: 1.3 }}
           className="mt-12 md:mt-24 flex flex-col gap-3 text-lg md:text-2xl tracking-tight text-white/70"
         >
-          <span>Fotografía.</span>
-          <span>Texto.</span>
-          <span>Ciudad.</span>
-          <span>Movimiento.</span>
+          <span>Fotografía</span>
+          <span>Texto</span>
+          <span>Ciudad</span>
+          <span>Movimiento</span>
         </motion.div>
 
         {/* State — slowly developing line */}
