@@ -11,7 +11,7 @@ import CargandoPeliculaPage from './pages/CargandoPeliculaPage.jsx';
 import FixIdPage from './pages/FixIdPage.jsx';
 import FixIdAccessPage from './pages/FixIdAccessPage.jsx';
 import SessionPage from './pages/SessionPage.jsx';
-import GlobalAudioPlayer from './components/GlobalAudioPlayer.jsx';
+import { AudioProvider } from './components/AudioProvider.jsx';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -38,10 +38,11 @@ function App() {
     <Router>
       <div className="app-shell">
         <div className="app-content">
-          <ScrollToTop />
-          <Header />
-          <AnimatedRoutes />
-          <GlobalAudioPlayer />
+          <AudioProvider>
+            <ScrollToTop />
+            <Header />
+            <AnimatedRoutes />
+          </AudioProvider>
         </div>
       </div>
     </Router>

@@ -16,6 +16,13 @@ alter table public.tokens
   add column if not exists nfc_uid text unique;
   -- opcional; no reemplaza secret_key. Permite /fixid/access?uid=TAG_ID
 
+-- 1.2) Audio ambiental personalizado por token (opcional) -------------
+alter table public.tokens
+  add column if not exists audio_url text;
+alter table public.tokens
+  add column if not exists audio_title text;
+  -- fuente única del audio por FixID; si null, el front usa el audio global.
+
 -- 2) Sesiones fotográficas --------------------------------------------
 create table if not exists public.photo_sessions (
   id uuid primary key default gen_random_uuid(),

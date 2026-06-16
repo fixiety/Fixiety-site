@@ -7,6 +7,7 @@ import { NETWORK_LABEL, hasAccess } from '@/lib/fixid.js';
 import { parseInstagram } from '@/lib/instagram.js';
 import ImageLightbox, { useLightbox } from '@/components/ImageLightbox.jsx';
 import OwnerHandleLink from '@/components/OwnerHandleLink.jsx';
+import { useGlobalAudio } from '@/components/AudioProvider.jsx';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -254,6 +255,17 @@ function FixIdPage() {
   const [view, setView] = useState('loading'); // 'loading' | 'full' | 'public' | 'notfound'
   const [record, setRecord] = useState(null);
   const lightbox = useLightbox();
+  const { setTrack, resetTrack } = useGlobalAudio();
+
+  // Audio personalizado del token (si existe); si no, vuelve al audio global.
+  useEffect(() => {
+    if (record && record.audio_url) {
+      setTrack({ src: record.audio_url, title: record.audio_title });
+    } else {
+      resetTrack();
+    }
+    return () => resetTrack();
+  }, [record, setTrack, resetTrack]);
 
   useEffect(() => {
     let cancelled = false;

@@ -53,16 +53,20 @@ Deno.serve(async (req) => {
 
     if (!session) return json({ error: 'not_found' }, 404);
 
-    // 2.0) Propietario => owner_handle desde public.tokens (fuente única).
-    // Solo se lee owner_handle; nunca secret_key ni nfc_uid.
+    // 2.0) Propietario + audio personalizado desde public.tokens (fuente única).
+    // Solo se leen campos públicos; nunca secret_key ni nfc_uid.
     let owner_handle: string | null = null;
+    let audio_url: string | null = null;
+    let audio_title: string | null = null;
     if (session.token_public_id) {
       const { data: tok } = await supabase
         .from('tokens')
-        .select('owner_handle')
+        .select('owner_handle, audio_url, audio_title')
         .eq('public_id', session.token_public_id)
         .maybeSingle();
       owner_handle = tok?.owner_handle ?? null;
+      audio_url = tok?.audio_url ?? null;
+      audio_title = tok?.audio_title ?? null;
     }
 
     // 2.1) Cover => signed URL temporal (no exponer la ruta cruda del bucket)
@@ -74,7 +78,7 @@ Deno.serve(async (req) => {
       cover_url = signedCover?.signedUrl ?? null;
     }
     const { cover_image_url: _coverPath, token_public_id: _tokenPid, ...sessionRest } = session;
-    const sessionPublic = { ...sessionRest, owner_handle };
+    const sessionPublic = { ...sessionRest, owner_handle, audio_url, audio_title };
 
     // 3) Assets => signed URLs temporales
     const { data: rows } = await supabase

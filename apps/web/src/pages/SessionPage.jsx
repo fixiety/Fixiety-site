@@ -8,6 +8,7 @@ import ProtectedImage from '@/components/ProtectedImage.jsx';
 import ImageLightbox, { useLightbox } from '@/components/ImageLightbox.jsx';
 import OwnerHandleLink from '@/components/OwnerHandleLink.jsx';
 import { parseInstagram } from '@/lib/instagram.js';
+import { useGlobalAudio } from '@/components/AudioProvider.jsx';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -92,6 +93,17 @@ function SessionPage() {
   const [downloaded, setDownloaded] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const lightbox = useLightbox();
+  const { setTrack, resetTrack } = useGlobalAudio();
+
+  // Audio personalizado de la sesión (si existe); si no, vuelve al audio global.
+  useEffect(() => {
+    if (session && session.audio_url) {
+      setTrack({ src: session.audio_url, title: session.audio_title });
+    } else {
+      resetTrack();
+    }
+    return () => resetTrack();
+  }, [session, setTrack, resetTrack]);
 
   useEffect(() => {
     let cancelled = false;
