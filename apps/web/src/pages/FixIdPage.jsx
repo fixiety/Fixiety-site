@@ -148,14 +148,14 @@ function FullView({ record, onOpenImage }) {
           className="mt-20 md:mt-28 mx-auto group"
         >
           <div
-            className="relative overflow-hidden cinematic-vignette cursor-zoom-in"
+            className="relative flex items-center justify-center bg-black cinematic-vignette cursor-zoom-in"
             onClick={() => onOpenImage(record.image_url, record.piece_name)}
           >
             <img
               src={record.image_url}
               alt={record.piece_name}
               loading="lazy"
-              className="fx-photo w-full aspect-[3/2] object-cover"
+              className="fx-photo w-full max-h-[80vh] object-contain"
             />
           </div>
         </motion.figure>

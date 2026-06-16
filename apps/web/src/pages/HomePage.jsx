@@ -21,7 +21,7 @@ function HomePage() {
       </Helmet>
 
       {/* Background Image */}
-      <div className="sticky top-0 h-dvh z-0 overflow-hidden">
+      <div className="sticky top-0 h-dvh z-0 overflow-hidden relative">
         <motion.img
           initial={{ scale: 1.08, y: 0 }}
           whileInView={{ scale: 1, y: -60 }}
@@ -30,6 +30,7 @@ function HomePage() {
           alt="Archivo Fixiety"
           className="w-full h-full object-cover object-center brightness-[0.85] contrast-[1.05]"
         />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 md:h-56 bg-gradient-to-b from-transparent via-black/60 to-black" />
       </div>
 
       {/* Content Container */}
