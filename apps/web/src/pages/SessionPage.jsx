@@ -257,7 +257,7 @@ function SessionPage() {
 
         {/* Galería */}
         {assets.length > 0 && (
-          <div className="mt-24 md:mt-32 flex flex-col items-center gap-24 md:gap-36 px-[2vw]">
+          <div className="mt-24 md:mt-32 px-6 md:px-10 max-w-6xl mx-auto columns-1 md:columns-2 gap-4 md:gap-6">
             {assets.map((asset, i) => (
               <motion.figure
                 key={asset.url + i}
@@ -265,12 +265,13 @@ function SessionPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-12%' }}
                 transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-                style={{ width: '84vw' }}
+                className="break-inside-avoid mb-4 md:mb-6 overflow-hidden bg-black/40"
               >
                 <ProtectedImage
                   src={asset.url}
                   alt={`${session.piece_name} — ${asset.position ?? i + 1}`}
                   watermark={session.registry_id}
+                  natural
                   onClick={() => lightbox.open(asset.url, `${session.piece_name} — ${asset.position ?? i + 1}`)}
                 />
               </motion.figure>
