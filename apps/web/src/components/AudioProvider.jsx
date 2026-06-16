@@ -16,6 +16,7 @@ export const DEFAULT_AUDIO = {
 
 const VOLUME = 0.3;
 const PREF_KEY = 'fixiety_audio_on';
+const HIDE_DELAY = 4500;
 
 const AudioCtx = createContext(null);
 
@@ -60,8 +61,29 @@ function writePref(on) {
  */
 export function AudioProvider({ children }) {
   const audioRef = useRef(null);
+  const hideTimerRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [currentTrack, setCurrentTrack] = useState(DEFAULT_AUDIO);
+
+  const clearHideTimer = useCallback(() => {
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = null;
+    }
+  }, []);
+
+  const scheduleHide = useCallback(() => {
+    clearHideTimer();
+    hideTimerRef.current = setTimeout(() => {
+      setIsVisible(false);
+    }, HIDE_DELAY);
+  }, [clearHideTimer]);
+
+  const revealControls = useCallback(() => {
+    setIsVisible(true);
+    if (isPlaying) scheduleHide();
+  }, [isPlaying, scheduleHide]);
 
   const setTrack = useCallback((track) => {
     if (!track || !track.src) {
@@ -97,6 +119,18 @@ export function AudioProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTrack.src]);
 
+  // Auto-ocultar controles mientras reproduce; visible siempre cuando está apagado.
+  useEffect(() => {
+    if (isPlaying) {
+      setIsVisible(true);
+      scheduleHide();
+    } else {
+      clearHideTimer();
+      setIsVisible(true);
+    }
+    return clearHideTimer;
+  }, [isPlaying, scheduleHide, clearHideTimer]);
+
   const toggle = useCallback(() => {
     const el = audioRef.current;
     if (!el) return;
@@ -119,6 +153,22 @@ export function AudioProvider({ children }) {
       });
   }, [isPlaying]);
 
+  const handleAreaInteraction = useCallback(() => {
+    if (isPlaying) revealControls();
+  }, [isPlaying, revealControls]);
+
+  const handleButtonClick = useCallback(
+    (e) => {
+      e.stopPropagation();
+      if (isPlaying && !isVisible) {
+        revealControls();
+        return;
+      }
+      toggle();
+    },
+    [isPlaying, isVisible, revealControls, toggle]
+  );
+
   const value = { setTrack, resetTrack, toggle, isPlaying, currentTrack };
 
   return (
@@ -127,30 +177,42 @@ export function AudioProvider({ children }) {
 
       <audio ref={audioRef} src={currentTrack.src} loop preload="none" />
 
-      <button
-        type="button"
-        onClick={toggle}
-        aria-label={isPlaying ? 'Apagar sonido' : 'Encender sonido'}
-        aria-pressed={isPlaying}
-        title={isPlaying && currentTrack.title ? currentTrack.title : undefined}
-        className="fixed bottom-5 right-5 md:bottom-6 md:right-6 z-[60] max-w-[70vw] px-3 py-2 text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/35 hover:text-white/80 transition-colors duration-500 select-none"
+      <div
+        className="fixed bottom-5 right-5 md:bottom-6 md:right-6 z-[60] flex items-end justify-end min-w-[120px] min-h-[44px] pointer-events-auto"
+        onClick={() => {
+          if (isPlaying && !isVisible) revealControls();
+        }}
+        onMouseEnter={handleAreaInteraction}
+        onTouchStart={handleAreaInteraction}
+        onFocus={handleAreaInteraction}
       >
-        <span className="flex flex-col items-end text-right leading-tight md:flex-row md:items-center md:gap-2">
-          {isPlaying && currentTrack.title && (
-            <span className="max-w-[60vw] md:max-w-[34vw] truncate normal-case tracking-[0.15em] text-white/40">
-              {currentTrack.title}
+        <button
+          type="button"
+          onClick={handleButtonClick}
+          aria-label={isPlaying ? 'Apagar sonido' : 'Encender sonido'}
+          aria-pressed={isPlaying}
+          title={isPlaying && currentTrack.title ? currentTrack.title : undefined}
+          className={`max-w-[70vw] px-3 py-2 text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/35 hover:text-white/80 transition-opacity duration-500 select-none ${
+            isPlaying && !isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
+          <span className="flex flex-col items-end text-right leading-tight md:flex-row md:items-center md:gap-2">
+            {isPlaying && currentTrack.title && (
+              <span className="max-w-[60vw] md:max-w-[34vw] truncate normal-case tracking-[0.15em] text-white/40">
+                {currentTrack.title}
+              </span>
+            )}
+            <span className="flex items-center gap-2">
+              <span
+                className={`inline-block h-1.5 w-1.5 rounded-full transition-colors duration-500 ${
+                  isPlaying ? 'bg-white/80' : 'bg-white/20'
+                }`}
+              />
+              Sonido {isPlaying ? 'On' : 'Off'}
             </span>
-          )}
-          <span className="flex items-center gap-2">
-            <span
-              className={`inline-block h-1.5 w-1.5 rounded-full transition-colors duration-500 ${
-                isPlaying ? 'bg-white/80' : 'bg-white/20'
-              }`}
-            />
-            Sonido {isPlaying ? 'On' : 'Off'}
           </span>
-        </span>
-      </button>
+        </button>
+      </div>
     </AudioCtx.Provider>
   );
 }
