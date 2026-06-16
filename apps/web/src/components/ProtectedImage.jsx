@@ -8,7 +8,7 @@ import React from 'react';
  *  - sin links de descarga directos
  *  - watermark tenue opcional
  */
-function ProtectedImage({ src, alt, watermark, aspectClass = 'aspect-[3/2]', onClick, natural = false }) {
+function ProtectedImage({ src, alt, watermark, aspectClass = 'aspect-[3/2]', onClick, natural = false, onLoad }) {
   return (
     <div
       className={`group relative overflow-hidden cinematic-vignette select-none ${
@@ -22,6 +22,7 @@ function ProtectedImage({ src, alt, watermark, aspectClass = 'aspect-[3/2]', onC
         alt={alt}
         draggable={false}
         loading="lazy"
+        onLoad={onLoad}
         className={`fx-photo w-full select-none pointer-events-none ${
           natural ? 'h-auto object-contain block' : `${aspectClass} object-cover`
         }`}
