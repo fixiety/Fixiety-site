@@ -20,18 +20,18 @@ function HomePage() {
         />
       </Helmet>
 
-      {/* Hero — mobile: encuadre actual; desktop: imagen completa con scroll reveal */}
-      <section className="relative bg-black min-h-[100dvh] md:min-h-[150vh]">
-        <div className="sticky top-0 z-0 h-dvh md:h-screen relative overflow-hidden bg-black flex items-center justify-center">
+      {/* Hero — full-bleed, fade inferior sutil */}
+      <section className="relative bg-black min-h-[100dvh]">
+        <div className="sticky top-0 z-0 h-dvh relative overflow-hidden bg-black">
           <motion.img
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5, ease: 'easeOut' }}
             src="https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/home-hero-001.jpg"
             alt="Archivo Fixiety"
-            className="w-full h-full object-cover object-center md:object-contain md:max-h-screen mx-auto brightness-[0.85] contrast-[1.05]"
+            className="w-full h-full min-h-dvh md:min-h-screen object-cover object-center md:object-[center_65%] brightness-[0.85] contrast-[1.05]"
           />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 md:h-72 bg-gradient-to-b from-transparent via-black/70 to-black" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20 md:h-32 bg-gradient-to-b from-transparent via-black/20 to-black/70 md:to-black/80" />
         </div>
       </section>
 
