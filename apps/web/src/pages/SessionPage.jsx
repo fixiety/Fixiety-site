@@ -257,7 +257,7 @@ function SessionPage() {
 
         {/* Galería */}
         {assets.length > 0 && (
-          <div className="mt-24 md:mt-32 px-6 md:px-10 max-w-6xl mx-auto columns-1 md:columns-2 gap-4 md:gap-6">
+          <div className="mt-24 md:mt-32 px-6 md:px-10 max-w-6xl mx-auto columns-1 md:columns-2 gap-10 md:gap-6">
             {assets.map((asset, i) => (
               <motion.figure
                 key={asset.url + i}
@@ -265,7 +265,7 @@ function SessionPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-12%' }}
                 transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-                className="break-inside-avoid mb-4 md:mb-6 overflow-hidden bg-black/40"
+                className="break-inside-avoid mb-10 md:mb-6 overflow-hidden bg-black/40"
               >
                 <ProtectedImage
                   src={asset.url}
