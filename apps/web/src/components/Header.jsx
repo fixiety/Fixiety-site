@@ -20,6 +20,7 @@ function Header() {
   const indexEntries = [
     { path: '/archivo', primary: 'Archivo', secondary: 'Archive' },
     { path: '/ediciones', primary: 'Ediciones', secondary: 'Editions' },
+    { path: '/fixid', primary: 'FixID', secondary: 'Registered Pieces' },
     { path: '/cargando-pelicula', primary: '001', secondary: 'Developing Film' }
   ];
 
