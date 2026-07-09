@@ -9,6 +9,7 @@ import ArchivoPage from './pages/ArchivoPage.jsx';
 import EdicionesPage from './pages/EdicionesPage.jsx';
 import CargandoPeliculaPage from './pages/CargandoPeliculaPage.jsx';
 import FixIdPage from './pages/FixIdPage.jsx';
+import FixIdIndexPage from './pages/FixIdIndexPage.jsx';
 import FixIdAccessPage from './pages/FixIdAccessPage.jsx';
 import SessionPage from './pages/SessionPage.jsx';
 import { AudioProvider } from './components/AudioProvider.jsx';
@@ -24,6 +25,7 @@ function AnimatedRoutes() {
         <Route path="/archivo" element={<ArchivoPage />} />
         <Route path="/ediciones" element={<EdicionesPage />} />
         <Route path="/cargando-pelicula" element={<CargandoPeliculaPage />} />
+        <Route path="/fixid" element={<FixIdIndexPage />} />
         <Route path="/fixid/access" element={<FixIdAccessPage />} />
         <Route path="/fixid/:token" element={<FixIdPage />} />
         <Route path="/session/:sessionId" element={<SessionPage />} />
