@@ -27,6 +27,7 @@ export const categories = [
   { key: 'nocturno', es: 'Nocturno', en: 'Night' },
   { key: 'objetos', es: 'Objetos', en: 'Objects' },
   { key: 'movimiento', es: 'Movimiento', en: 'Motion' },
+  { key: 'colabs', es: 'Colabs', en: 'Collabs' },
 ];
 
 export const archiveItems = [
