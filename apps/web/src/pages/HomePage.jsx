@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import ArchiveCounter from '@/components/ArchiveCounter.jsx';
 
 const HOME_HERO =
   'https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/home-hero-001.jpg';
@@ -110,6 +111,16 @@ function HomePage() {
               Enter
             </span>
           </Link>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 1.2, delay: 0.8 }}
+          className="mt-28"
+        >
+          <ArchiveCounter />
         </motion.div>
       </div>
     </motion.main>
