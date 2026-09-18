@@ -13,9 +13,11 @@ import FixIdIndexPage from './pages/FixIdIndexPage.jsx';
 import FixIdAccessPage from './pages/FixIdAccessPage.jsx';
 import SessionPage from './pages/SessionPage.jsx';
 import { AudioProvider } from './components/AudioProvider.jsx';
+import { usePageTracking } from './hooks/usePageTracking.js';
 
 function AnimatedRoutes() {
   const location = useLocation();
+  usePageTracking();
 
   return (
     <AnimatePresence mode="wait">
