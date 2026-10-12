@@ -1,7 +1,7 @@
 /**
  * Ediciones Fixiety — fuente única de datos.
  *
- * Objetos archivados, no productos. Las imágenes son placeholders de Unsplash.
+ * Objetos archivados, no productos. Las imágenes viven en el bucket fixiety-archive.
  * Para reemplazarlas por fotografía propia basta con cambiar `src` (idealmente a
  * rutas locales en /public, p. ej. "/ediciones/edicion-001.jpg"). La página no
  * se debe tocar: toda la curaduría vive aquí.
@@ -17,8 +17,6 @@
  *  - orientation  'vertical' | 'horizontal'
  */
 
-const UNSPLASH = (id, w = 1600) =>
-  `https://images.unsplash.com/${id}?q=80&w=${w}&auto=format&fit=crop`;
 
 export const editionItems = [
   {
