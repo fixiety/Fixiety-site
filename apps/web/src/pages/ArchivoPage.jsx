@@ -29,8 +29,9 @@ function Caption({ item }) {
 
 function Plate({ item, index, onOpen }) {
   // Every fourth registro becomes a full-page Featured Item.
-  const isFeatured = (index + 1) % 4 === 0;
   const isVertical = item.orientation === 'vertical';
+  // Solo las placas horizontales pueden ser Featured (una vertical se recortaría).
+  const isFeatured = (index + 1) % 4 === 0 && !isVertical;
 
   let width;
   let aspectClass;
@@ -84,7 +85,7 @@ function ArchivoPage() {
   const filtered = useMemo(
     () =>
       active === 'todos'
-        ? archiveItems
+        ? archiveItems.filter((item) => item.category !== 'secuencias')
         : archiveItems.filter((item) => item.category === active),
     [active]
   );
