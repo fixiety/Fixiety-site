@@ -27,8 +27,8 @@ export const editionItems = [
     titulo: 'Musette',
     descripcion: 'Pieza textil para atravesar la ciudad. Construida a mano, una a una.',
     estado: 'Archivo físico',
-    src: UNSPLASH('photo-1540749046540-b7d8f98c7e4c'),
-    alt: 'Musette de ciclismo sobre fondo oscuro',
+    src: 'https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/musette-bosque-001.jpg',
+    alt: 'Rider de espaldas con la musette Fixiety cruzada al pecho, en un bosque',
     orientation: 'horizontal',
   },
   {
@@ -37,8 +37,8 @@ export const editionItems = [
     titulo: 'FixID',
     descripcion: 'Objeto físico ligado a un rastro digital. Se toca, se accede.',
     estado: 'Registro activo',
-    src: UNSPLASH('photo-1643294778211-a5873bd93f12', 1200),
-    alt: 'Objeto físico con tecnología NFC',
+    src: 'https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/fixid-pendiente.jpg',
+    alt: 'FixID — registro fotográfico en proceso',
     orientation: 'vertical',
   },
   {
@@ -47,8 +47,8 @@ export const editionItems = [
     titulo: 'Fotociclismo Pro',
     descripcion: 'Registro visual del movimiento fijo. Mirada nocturna, evidencia urbana.',
     estado: 'En proceso',
-    src: UNSPLASH('photo-1556924145-957f113191fd'),
-    alt: 'Fotografía nocturna de ciclismo urbano',
-    orientation: 'horizontal',
+    src: 'https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/fotociclismo-pro-2026-002.jpg',
+    alt: 'Manos de un rider sobre el manubrio de una bici de pista, de noche, con luces de tráfico desenfocadas',
+    orientation: 'vertical',
   },
 ];
