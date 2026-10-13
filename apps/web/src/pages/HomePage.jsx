@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
@@ -8,6 +8,7 @@ const HOME_HERO =
   'https://edelwrzijrnydxrnqhff.supabase.co/storage/v1/object/public/fixiety-archive/home-hero-001.jpg';
 
 function HomePage() {
+  const [heroLoaded, setHeroLoaded] = useState(false);
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -28,8 +29,12 @@ function HomePage() {
       <section className="md:hidden relative min-h-[100dvh]">
         <div className="sticky top-0 h-dvh relative overflow-hidden bg-black">
           <motion.img
+            ref={(el) => {
+              if (el && el.complete && el.naturalWidth > 0) setHeroLoaded(true);
+            }}
+            onLoad={() => setHeroLoaded(true)}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ opacity: heroLoaded ? 1 : 0 }}
             transition={{ duration: 1.5, ease: 'easeOut' }}
             src={HOME_HERO}
             alt="Archivo Fixiety"
@@ -44,8 +49,12 @@ function HomePage() {
         <div className="relative mx-auto flex min-h-[200vh] flex-col items-center justify-start px-6 pt-8">
           <div className="relative w-full flex justify-center">
             <motion.img
+              ref={(el) => {
+                if (el && el.complete && el.naturalWidth > 0) setHeroLoaded(true);
+              }}
+              onLoad={() => setHeroLoaded(true)}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={{ opacity: heroLoaded ? 1 : 0 }}
               transition={{ duration: 1.5, ease: 'easeOut' }}
               src={HOME_HERO}
               alt="Archivo Fixiety"

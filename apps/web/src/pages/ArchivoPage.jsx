@@ -28,6 +28,7 @@ function Caption({ item }) {
 }
 
 function Plate({ item, index, onOpen }) {
+  const [loaded, setLoaded] = useState(false);
   // Every fourth registro becomes a full-page Featured Item.
   const isVertical = item.orientation === 'vertical';
   // Solo las placas horizontales pueden ser Featured (una vertical se recortaría).
@@ -67,9 +68,17 @@ function Plate({ item, index, onOpen }) {
         onClick={() => onOpen(item.src, item.alt)}
       >
         <img
+          ref={(el) => {
+            if (el && el.complete && el.naturalWidth > 0) setLoaded(true);
+          }}
           src={item.src}
           alt={item.alt}
           loading="lazy"
+          onLoad={() => setLoaded(true)}
+          style={{
+            opacity: loaded ? 1 : 0,
+            transition: 'opacity 900ms ease, filter 500ms ease, transform 500ms ease',
+          }}
           className={`fx-photo w-full ${aspectClass} object-cover`}
         />
       </div>

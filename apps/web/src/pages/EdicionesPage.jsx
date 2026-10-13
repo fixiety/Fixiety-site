@@ -24,6 +24,7 @@ function EditionCaption({ item }) {
 }
 
 function EditionPlate({ item, index, onOpen }) {
+  const [loaded, setLoaded] = React.useState(false);
   const isVertical = item.orientation === 'vertical';
   const width = isVertical ? '48vw' : '88vw';
   const aspectClass = isVertical ? 'aspect-[3/4]' : 'aspect-[3/2]';
@@ -43,9 +44,17 @@ function EditionPlate({ item, index, onOpen }) {
         onClick={() => onOpen(item.src, item.alt)}
       >
         <img
+          ref={(el) => {
+            if (el && el.complete && el.naturalWidth > 0) setLoaded(true);
+          }}
           src={item.src}
           alt={item.alt}
           loading="lazy"
+          onLoad={() => setLoaded(true)}
+          style={{
+            opacity: loaded ? 1 : 0,
+            transition: 'opacity 900ms ease, filter 500ms ease, transform 500ms ease',
+          }}
           className={`fx-photo w-full ${aspectClass} object-cover`}
         />
       </div>
