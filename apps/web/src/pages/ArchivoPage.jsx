@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { archiveItems, categories } from '@/data/archiveItems.js';
@@ -34,16 +34,18 @@ function Plate({ item, index, onOpen }) {
   // Solo las placas horizontales pueden ser Featured (una vertical se recortaría).
   const isFeatured = (index + 1) % 4 === 0 && !isVertical;
 
-  let width;
+  // Celular: todas las placas ocupan casi todo el ancho (96vw).
+  // Desktop (md+): se conservan los anchos editoriales de antes.
+  let widthClass;
   let aspectClass;
   if (isFeatured) {
-    width = '96vw';
+    widthClass = 'w-[96vw]';
     aspectClass = 'aspect-[16/10]';
   } else if (isVertical) {
-    width = '48vw';
+    widthClass = 'w-[96vw] md:w-[48vw]';
     aspectClass = 'aspect-[3/4]';
   } else {
-    width = '88vw';
+    widthClass = 'w-[96vw] md:w-[88vw]';
     aspectClass = 'aspect-[3/2]';
   }
 
@@ -60,8 +62,7 @@ function Plate({ item, index, onOpen }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-12%' }}
       transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-      style={{ width }}
-      className={`${alignClass} group`}
+      className={`${widthClass} ${alignClass} group`}
     >
       <div
         className="relative overflow-hidden cinematic-vignette cursor-zoom-in"
@@ -89,7 +90,21 @@ function Plate({ item, index, onOpen }) {
 
 function ArchivoPage() {
   const [active, setActive] = useState('todos');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef(null);
+  const lastPointer = useRef('mouse');
   const lightbox = useLightbox();
+  const activeCategory = categories.find((c) => c.key === active);
+
+  // En táctil: tocar fuera del menú lo cierra.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onDown = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) setMenuOpen(false);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, [menuOpen]);
 
   const filtered = useMemo(
     () =>
@@ -131,23 +146,64 @@ function ArchivoPage() {
         </header>
 
         <motion.nav
+          ref={navRef}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.45 }}
-          className="mb-10 md:mb-12 flex flex-wrap justify-center gap-x-7 gap-y-3"
+          className="relative z-20 mb-10 md:mb-12 flex justify-center"
           aria-label="Categorías del archivo"
+          onPointerEnter={(e) => {
+            if (e.pointerType === 'mouse') setMenuOpen(true);
+          }}
+          onPointerLeave={(e) => {
+            if (e.pointerType === 'mouse') setMenuOpen(false);
+          }}
         >
-          {categories.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setActive(cat.key)}
-              className={`text-xs tracking-[0.25em] uppercase transition-colors duration-500 ${
-                active === cat.key ? 'text-white' : 'text-white/30 hover:text-white/60'
-              }`}
-            >
-              {cat.es}
-            </button>
-          ))}
+          <button
+            type="button"
+            aria-haspopup="true"
+            aria-expanded={menuOpen}
+            onPointerDown={(e) => {
+              lastPointer.current = e.pointerType;
+            }}
+            onClick={() =>
+              setMenuOpen((open) => (lastPointer.current === 'mouse' ? true : !open))
+            }
+            className="text-xs tracking-[0.25em] uppercase text-white"
+          >
+            {activeCategory ? activeCategory.es : ''}
+            <span className="ml-3 text-white/30">{menuOpen ? '–' : '+'}</span>
+          </button>
+
+          <AnimatePresence>
+            {menuOpen && (
+              <div className="absolute inset-x-0 top-full flex justify-center pointer-events-none">
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.35 }}
+                  className="pointer-events-auto w-[min(92vw,44rem)] bg-black pt-5 pb-3 flex flex-wrap justify-center gap-x-7 gap-y-4"
+                >
+                  {categories
+                    .filter((cat) => cat.key !== active)
+                    .map((cat) => (
+                      <button
+                        key={cat.key}
+                        type="button"
+                        onClick={() => {
+                          setActive(cat.key);
+                          setMenuOpen(false);
+                        }}
+                        className="text-xs tracking-[0.25em] uppercase text-white/30 hover:text-white transition-colors duration-500"
+                      >
+                        {cat.es}
+                      </button>
+                    ))}
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
         </motion.nav>
       </div>
 
