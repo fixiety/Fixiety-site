@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { supabase } from '@/lib/supabaseClient.js';
 import { parseInstagram } from '@/lib/instagram.js';
+import { isActivatedPiece } from '@/lib/pieces.js';
 
 /**
  * Índice público de piezas FixID registradas.
@@ -11,10 +12,6 @@ import { parseInstagram } from '@/lib/instagram.js';
  * sesiones privadas: la vista puede no exponer `type`, así que también
  * se descartan los public_id con prefijo SESSION-.
  */
-function isObjectToken(token) {
-  if (token.type && token.type !== 'object') return false;
-  return !String(token.public_id || '').startsWith('SESSION-');
-}
 
 function PieceCard({ token, index }) {
   const owner = parseInstagram(token.owner_handle);
@@ -84,7 +81,7 @@ function FixIdIndexPage() {
         return;
       }
       setTokens(
-        data.filter(isObjectToken).sort((a, b) => String(a.public_id).localeCompare(String(b.public_id)))
+        data.filter(isActivatedPiece).sort((a, b) => String(a.public_id).localeCompare(String(b.public_id)))
       );
     }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient.js';
+import { isActivatedPiece } from '@/lib/pieces.js';
 
 function getVisitorId() {
   try {
@@ -15,41 +16,52 @@ function getVisitorId() {
 }
 
 function ArchiveCounter() {
-  const [stats, setStats] = useState(null);
+  const [visitors, setVisitors] = useState(null);
+  const [pieces, setPieces] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function register() {
+    // Accesos: RPC existente (ventana de 12 h por visitante).
+    async function registerVisit() {
       if (!supabase) return;
       const vid = getVisitorId();
       if (!vid) return;
-
       try {
         const { data, error } = await supabase.rpc('register_visit', { vid });
         if (cancelled || error || !data) return;
         const row = Array.isArray(data) ? data[0] : data;
-        if (row) setStats(row);
+        if (row) setVisitors(Number(row.total_visitors || 0));
       } catch {
         // silencio intencional
       }
     }
 
-    register();
+    // Registros: solo piezas activadas (objeto activo con foto).
+    async function countPieces() {
+      if (!supabase) return;
+      try {
+        const { data, error } = await supabase.from('tokens_public').select('*');
+        if (cancelled || error || !Array.isArray(data)) return;
+        setPieces(data.filter(isActivatedPiece).length);
+      } catch {
+        // silencio intencional
+      }
+    }
+
+    registerVisit();
+    countPieces();
     return () => {
       cancelled = true;
     };
   }, []);
 
-  if (!stats) return null;
-
-  const pieces = Number(stats.total_pieces || 0).toLocaleString();
-  const visitors = Number(stats.total_visitors || 0).toLocaleString();
+  if (visitors === null && pieces === null) return null;
 
   return (
     <div className="flex flex-col items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-white/25">
-      <span>Registros · {pieces}</span>
-      <span>Accesos · {visitors}</span>
+      {pieces !== null && <span>Registros · {pieces.toLocaleString()}</span>}
+      {visitors !== null && <span>Accesos · {visitors.toLocaleString()}</span>}
     </div>
   );
 }
