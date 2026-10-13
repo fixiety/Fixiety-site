@@ -30,21 +30,13 @@ function Caption({ item }) {
 // Celular: etiqueta vertical (se lee de arriba a abajo) en el espacio libre
 // al costado de la foto. Se recorta con "…" si no cabe en el alto de la foto.
 function SideLabel({ item }) {
-  const parts = [item.registro, item.lugar, item.temporada, item.nota].filter(
-    (t) => t && t !== 'Por documentar'
-  );
   return (
     <div className="md:hidden relative flex-1 min-w-0">
       <span
-        className="absolute inset-y-0 left-1/2 -translate-x-1/2 overflow-hidden text-ellipsis whitespace-nowrap text-[10px] leading-none tracking-[0.34em] uppercase"
+        className="absolute inset-y-0 left-1/2 -translate-x-1/2 overflow-hidden text-ellipsis whitespace-nowrap text-[10px] leading-none tracking-[0.34em] uppercase text-white/65"
         style={{ writingMode: 'vertical-rl' }}
       >
-        {parts.map((t, i) => (
-          <React.Fragment key={i}>
-            {i > 0 && <span className="text-white/20 mx-[0.6em]">—</span>}
-            <span className={i === 0 ? 'text-white/65' : 'text-white/35'}>{t}</span>
-          </React.Fragment>
-        ))}
+        {item.registro}
       </span>
     </div>
   );
@@ -94,7 +86,13 @@ function Plate({ item, index, onOpen }) {
       >
       <div
         className="relative overflow-hidden cinematic-vignette cursor-zoom-in w-[88vw] shrink-0 md:w-full"
-        onClick={() => onOpen(item.src, item.alt)}
+        onClick={() =>
+          onOpen(item.src, item.alt, {
+            lugar: item.lugar,
+            temporada: item.temporada,
+            nota: item.nota,
+          })
+        }
       >
         <img
           ref={(el) => {

@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
  */
 export function useLightbox() {
   const [image, setImage] = useState(null); // { src, alt } | null
-  const open = useCallback((src, alt = '') => setImage({ src, alt }), []);
+  const open = useCallback((src, alt = '', info = null) => setImage({ src, alt, info }), []);
   const close = useCallback(() => setImage(null), []);
   return { image, open, close };
 }
@@ -56,6 +56,7 @@ function ImageLightbox({ image, onClose }) {
             Cerrar
           </button>
 
+          <div className="flex flex-col" style={{ maxWidth: '96vw' }}>
           <motion.img
             key={image.src}
             src={image.src}
@@ -68,8 +69,28 @@ function ImageLightbox({ image, onClose }) {
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="fx-photo-full select-none object-contain"
-            style={{ maxWidth: '96vw', maxHeight: '92vh' }}
+            style={{ maxWidth: '96vw', maxHeight: image.info ? '80vh' : '92vh' }}
           />
+          {image.info && (
+            <motion.div
+              key={`info-${image.src}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="mt-5 pt-4 border-t border-white/10 flex flex-col gap-2"
+            >
+              <span className="text-xs tracking-[0.18em] uppercase text-white/45">
+                {[image.info.lugar, image.info.temporada].filter(Boolean).join(' · ')}
+              </span>
+              {image.info.nota && (
+                <span className="text-xs tracking-[0.18em] uppercase text-white/30">
+                  {image.info.nota}
+                </span>
+              )}
+            </motion.div>
+          )}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
